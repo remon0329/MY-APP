@@ -95,4 +95,4 @@ youtubeに投稿されている動画またはファイルから引用してア�
 https://www.figma.com/design/1lDBrCUi3k7XLF0aqp7kHj/Untitled?node-id=0-1&t=rBsJ1G1dBBGv9clt-1
 
 ER図
-[![Image from Gyazo](https://i.gyazo.com/632c69b2de5dfcbce575a58ebe72e56b.png)](https://gyazo.com/632c69b2de5dfcbce575a58ebe72e56b)
+[![Image from Gyazo](https://i.gyazo.com/54f59222adeb018d03f90f2a5d15110d.png)](https://gyazo.com/54f59222adeb018d03f90f2a5d15110d)
