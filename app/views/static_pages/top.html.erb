@@ -1,6 +1,14 @@
 <%= render 'shared/header' %>
 
 <div class="main-content">
-  <h2>ようこそ！ゲームライブラリへ</h2>
-  <!-- その他のコンテンツをここに追加 -->
+  <h3>掲示板一覧</h3>
+  <div class="posts">
+    <% @posts.each do |post| %>
+      <div class="post">
+        <img src="<%= post.thumbnail %>" alt="<%= post.title %>のサムネイル">
+        <h4><%= post.title %></h4>
+        <p>投稿者: <%= post.user_name %></p>
+      </div>
+    <% end %>
+  </div>
 </div>
