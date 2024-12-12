@@ -16,8 +16,13 @@
         <% end %>
 
         <% if post.video_url.present? %>
-          <% video_id = post.video_url.split("v=").last %>
-          <iframe width="320" height="240" src="https://www.youtube.com/embed/<%= video_id %>" frameborder="0" allowfullscreen></iframe>
+          <% 
+            video_id = post.video_url.match(/(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+|(?:v|e(?:mbed)?)\/?([^\/\n\s]*))|youtu\.be\/([^\/\n\s]+))/)
+            video_id = video_id[1] || video_id[2] || video_id[3]
+          %>
+          <% if video_id %>
+            <iframe width="320" height="240" src="https://www.youtube.com/embed/<%= video_id %>" frameborder="0" allowfullscreen></iframe>
+          <% end %>
         <% end %>
       </div>
     <% end %>
