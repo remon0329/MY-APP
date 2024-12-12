@@ -4,6 +4,6 @@ Rails.application.routes.draw do
     registrations: "users/registrations"
   }
   root "posts#top"
-  resources :posts, only: [:index, :new, :create]
+  resources :posts, only: [ :index, :new, :create ]
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 end

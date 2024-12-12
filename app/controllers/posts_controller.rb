@@ -16,7 +16,7 @@ class PostsController < ApplicationController
     puts current_user.inspect
     @post = current_user.posts.build(post_params)
     if @post.save
-      redirect_to root_path, notice: '投稿が作成されました'
+      redirect_to root_path, notice: "投稿が作成されました"
     else
       render :new
     end
