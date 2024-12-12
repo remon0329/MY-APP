@@ -1,0 +1,25 @@
+<%= render 'shared/header' %>
+
+<div class="main-content">
+  <h3>掲示板一覧</h3>
+  <div class="posts">
+    <% @posts.each do |post| %>
+      <div class="post">
+        <img src="<%= post.thumbnail %>">
+        <h4><%= post.title %></h4>
+        <p>投稿者: <%= post.user_name %></p>
+        <% if post.video_file.attached? %>
+          <video width="320" height="240" controls>
+            <source src="<%= url_for(post.video_file) %>" type="video/mp4">
+            お使いのブラウザでは動画再生に対応していません。
+          </video>
+        <% end %>
+
+        <% if post.video_url.present? %>
+          <% video_id = post.video_url.split("v=").last %>
+          <iframe width="320" height="240" src="https://www.youtube.com/embed/<%= video_id %>" frameborder="0" allowfullscreen></iframe>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
