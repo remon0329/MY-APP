@@ -21,6 +21,7 @@
           <!-- ユーザーアイコン -->
           <div class="user-icon">
             <%= link_to "プロフィールへ", "#", class: "btn btn-primary" %>
+            <%= link_to 'ログアウト', destroy_user_session_path, data: { method: :delete }, class: 'btn btn-danger' %>
           </div>
         <% else %>
           <!-- ログインボタン -->

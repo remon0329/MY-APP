@@ -15,6 +15,8 @@ class PostsController < ApplicationController
   def create
     puts current_user.inspect
     @post = current_user.posts.build(post_params)
+    @post.user_id = current_user.id
+    @post.user_name = current_user.name
     if @post.save
       redirect_to root_path, notice: "投稿が作成されました"
     else
