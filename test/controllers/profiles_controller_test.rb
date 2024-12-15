@@ -1,10 +1,13 @@
-require "test_helper"
+require 'test_helper'
+require 'factory_bot'
 
 class ProfilesControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
+  include FactoryBot::Syntax::Methods
+
   def setup
-    @user = FactoryBot.create(:user) # ユーザーのファクトリを使うか、適切なユーザーを指定
-    sign_in @user # Deviseを使っている場合のサインイン
+    @user = create(:user) # FactoryBotのcreateメソッドが使える
+    sign_in @user
   end
 
   test "should get show" do
