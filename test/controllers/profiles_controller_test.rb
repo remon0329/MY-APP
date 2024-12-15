@@ -1,5 +1,5 @@
-require 'test_helper'
-require 'factory_bot'
+require "test_helper"
+require "factory_bot"
 
 class ProfilesControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
