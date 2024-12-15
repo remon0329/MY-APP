@@ -1,6 +1,7 @@
 require "test_helper"
 
 class ProfilesControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
   def setup
     @user = users(:one) # ユーザーのファクトリを使うか、適切なユーザーを指定
     sign_in @user # Deviseを使っている場合のサインイン
