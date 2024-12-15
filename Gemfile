@@ -58,6 +58,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "factory_bot_rails"
+  gem "letter_opener_web", "~> 1.0"
 end
 
 gem "devise"
