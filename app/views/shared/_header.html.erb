@@ -20,7 +20,7 @@
         <% if user_signed_in? %>
           <!-- ユーザーアイコン -->
           <div class="user-icon">
-            <%= link_to "プロフィールへ", profile_path(current_user), class: "btn btn-primary" %>
+            <%= link_to "プロフィールへ", post_path(current_user), class: "btn btn-primary" %>
           </div>
         <% else %>
           <!-- ログインボタン -->

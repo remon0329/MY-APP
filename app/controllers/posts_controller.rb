@@ -12,6 +12,11 @@ class PostsController < ApplicationController
     @post = Post.new
   end
 
+  def show
+    @user = current_user
+    @posts = @user.posts
+  end
+
   def create
     puts current_user.inspect
     @post = current_user.posts.build(post_params)
