@@ -2,10 +2,17 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, only: [ :create ]
   def index
     @posts = Post.all
+    @sureddos = Sureddo.all
+  end
+
+  def sureddo
+    @posts = Post.all
+    @sureddos = Sureddo.all
   end
 
   def top
     @posts = Post.all # すべての投稿を取得
+    @sureddos = Sureddo.all
   end
 
   def new
@@ -15,6 +22,7 @@ class PostsController < ApplicationController
   def show
     @user = current_user
     @posts = @user.posts
+    @sureddos = @user.sureddos
   end
 
   def create

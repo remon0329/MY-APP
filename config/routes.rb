@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     get "/users/sign_out" => "devise/sessions#destroy"
   end
   root "posts#top"
-  resources :posts, only: [ :index, :new, :create, :show ]
+  get "posts/sureddo", to: "posts#sureddo", as: "sureddo_posts"
+  resources :posts, only: [ :index, :new, :create, :show, :sureddo ]
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 end

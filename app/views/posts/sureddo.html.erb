@@ -1,0 +1,16 @@
+<%= render 'shared/header' %>
+<%= link_to '掲示板一覧はこちら！', root_path, class: 'btn btn-secondary' %>
+
+<div class="main-content">
+  <h4>スレッド一覧にようこそ！</h4>
+  <div id="sureddo-posts" class="posts" style="display: none;">
+    <% @sureddos.each do |sureddo| %>
+      <div class="post">
+        <img src="<%= sureddo.image %>">
+        <h4><%= sureddo.title %></h4>
+        <p><%= sureddo.description %></p>
+        <p>投稿者: <%= sureddo.user_name %></p>
+      </div>
+    <% end %>
+  </div>
+</div>
