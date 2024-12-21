@@ -1,0 +1,12 @@
+<div class="main-content">
+  <h4>スレッド詳細</h4>
+
+  <p>投稿者: <%= @sureddo.user_name %></p>
+
+  <% if @sureddo.image.attached? %>
+    <img src="<%= url_for(@sureddo.image) %>" alt="画像が読み込めませんでした">
+  <% end %>
+
+  <h4>タイトル: <%= @sureddo.title %></h4>
+  <p>説明: <%= @sureddo.description %></p>
+</div>

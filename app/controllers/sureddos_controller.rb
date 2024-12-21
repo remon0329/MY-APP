@@ -11,9 +11,7 @@ class SureddosController < ApplicationController
   end
 
   def show
-    @user = current_user
-    @posts = @user.posts
-    @sureddos = @user.sureddos
+    @sureddo = Sureddo.find(params[:id])
   end
 
   def create
