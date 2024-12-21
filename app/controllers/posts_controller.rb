@@ -19,6 +19,10 @@ class PostsController < ApplicationController
     @post = Post.new
   end
 
+  def sureddo_new
+    @sureddo = Sureddo.new
+  end
+
   def show
     @user = current_user
     @posts = @user.posts
