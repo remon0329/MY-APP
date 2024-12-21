@@ -43,8 +43,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_21_000321) do
   end
 
   create_table "posts", force: :cascade do |t|
-    t.string "title", null: false
-    t.text "body", null: false
+    t.string "title"
+    t.text "body"
     t.string "thumbnail"
     t.string "user_name"
     t.datetime "created_at", null: false

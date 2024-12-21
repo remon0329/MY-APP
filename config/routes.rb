@@ -10,6 +10,10 @@ Rails.application.routes.draw do
   root "posts#top"
   get "posts/sureddo", to: "posts#sureddo", as: "sureddo_posts"
   resources :sureddos, only: [ :index, :create, :new, :show ]
-  resources :posts, only: [ :index, :new, :create, :show, :sureddo ]
+  resources :posts, only: [ :index, :new, :create, :show ] do
+    member do
+      get :detail  # detailアクションのルーティングを追加
+    end
+  end
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 end

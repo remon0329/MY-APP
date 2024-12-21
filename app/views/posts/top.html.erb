@@ -8,7 +8,7 @@
     <% @posts.each do |post| %>
       <div class="post">
         <img src="<%= post.thumbnail %>">
-        <h4><%= post.title %></h4>
+        <h4>タイトル: <%= link_to post.title, detail_post_path(post) %></h4>
         <p>投稿者: <%= post.user_name %></p>
         <% if post.video_file.attached? %>
           <video width="320" height="240" controls>

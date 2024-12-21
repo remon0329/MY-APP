@@ -23,6 +23,10 @@ class PostsController < ApplicationController
     @sureddo = Sureddo.new
   end
 
+  def detail
+    @post = Post.find(params[:id])
+  end
+
   def show
     @user = current_user
     @posts = @user.posts

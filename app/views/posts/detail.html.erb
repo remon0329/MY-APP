@@ -1,0 +1,29 @@
+<h5>詳細ページ</h5>
+
+<div class="post-detail">
+  <% if @post.thumbnail.present? %>
+    <img src="<%= @post.thumbnail %>" alt="サムネイルが読み込めませんでした">
+  <% end %>
+
+  <p>投稿者: <%= @post.user_name %></p>
+
+  <% if @post.video_file.attached? %>
+    <video width="320" height="240" controls>
+      <source src="<%= url_for(@post.video_file) %>" type="video/mp4">
+      お使いのブラウザでは動画再生に対応していません。
+    </video>
+  <% end %>
+
+  <% if @post.video_url.present? %>
+    <% 
+      video_id = @post.video_url.match(/(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+|(?:v|e(?:mbed)?)\/?([^\/\n\s]*))|youtu\.be\/([^\/\n\s]+))/)
+      video_id = video_id[1] || video_id[2] || video_id[3]
+    %>
+    <% if video_id %>
+      <iframe width="320" height="240" src="https://www.youtube.com/embed/<%= video_id %>" frameborder="0" allowfullscreen></iframe>
+    <% end %>
+  <% end %>
+
+  <h4>タイトル: <%= @post.title %></h4>
+  <p>説明欄: <%= @post.description %></p>
+</div>
