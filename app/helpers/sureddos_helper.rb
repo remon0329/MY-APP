@@ -1,0 +1,2 @@
+module SureddosHelper
+end
