@@ -9,11 +9,11 @@ Rails.application.routes.draw do
   end
   root "posts#top"
   get "posts/sureddo", to: "posts#sureddo", as: "sureddo_posts"
-  resources :sureddos, only: [ :index, :create, :new, :show ] do
+  resources :sureddos, only: [ :index, :create, :new, :show, :edit, :update, :destroy ] do
     resources :comments, only: [ :create ], controller: "comments", action: "create_for_sureddo"
   end
 
-  resources :posts, only: [ :index, :new, :create, :show ] do
+  resources :posts, only: [ :index, :show, :new, :create, :edit, :update, :destroy ] do
     member do
       get :detail
     end

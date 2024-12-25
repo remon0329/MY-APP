@@ -1,5 +1,6 @@
 class SureddosController < ApplicationController
-  before_action :authenticate_user!, only: [ :create ]
+  before_action :authenticate_user!, only: [ :create, :edit, :update, :destroy ]
+  before_action :set_sureddo, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @posts = Post.all
@@ -26,7 +27,28 @@ class SureddosController < ApplicationController
     end
   end
 
+  def edit
+    # @sureddoはbefore_actionでセットされる
+  end
+
+  def update
+    if @sureddo.update(sureddo_params)
+      redirect_to sureddos_path, notice: "投稿が更新されました"
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @sureddo.destroy
+    redirect_to sureddos_path, notice: "投稿が削除されました"
+  end
+
   private
+
+  def set_sureddo
+    @sureddo = Sureddo.find(params[:id])  # 特定のsureddoを取得
+  end
 
   def sureddo_params
     params.require(:sureddo).permit(:title, :description, :image)

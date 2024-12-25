@@ -1,5 +1,7 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!, only: [ :create ]
+  before_action :authenticate_user!, only: [:create, :edit, :update, :destroy]
+  before_action :set_post, only: [:edit, :update, :destroy]
+
   def index
     @posts = Post.all
     @sureddos = Sureddo.all
@@ -11,7 +13,7 @@ class PostsController < ApplicationController
   end
 
   def top
-    @posts = Post.all # すべての投稿を取得
+    @posts = Post.all
     @sureddos = Sureddo.all
   end
 
@@ -30,6 +32,7 @@ class PostsController < ApplicationController
 
   def show
     @user = current_user
+    @post = Post.find(params[:id])
     @posts = @user.posts
     @sureddos = @user.sureddos
   end
@@ -46,6 +49,23 @@ class PostsController < ApplicationController
     end
   end
 
+  def edit
+    # @post は before_action で設定される
+  end
+
+  def update
+    if @post.update(post_params)
+      redirect_to root_path, notice: "投稿が更新されました"
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @post.destroy
+    redirect_to root_path, notice: "投稿が削除されました"
+  end
+
   private
 
   def post_params
@@ -54,5 +74,9 @@ class PostsController < ApplicationController
 
   def set_post
     @post = Post.find(params[:id])
+    # 投稿が現在のユーザーのものであることを確認
+    if @post.user != current_user
+      redirect_to root_path, alert: "自分の投稿のみ編集・削除できます"
+    end
   end
 end
