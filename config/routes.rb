@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   resources :sureddos, only: [ :index, :create, :new, :show ] do
     resources :comments, only: [ :create ], controller: "comments", action: "create_for_sureddo"
   end
-  
+
   resources :posts, only: [ :index, :new, :create, :show ] do
     member do
       get :detail
