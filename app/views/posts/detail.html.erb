@@ -44,6 +44,7 @@
 <% if @post.comments.present? %>
   <% @post.comments.each do |comment| %>
     <div class="comment">
+      <p><%= comment.user.name %>さんのコメント:</p>
       <p><%= comment.content %></p>
     </div>
   <% end %>

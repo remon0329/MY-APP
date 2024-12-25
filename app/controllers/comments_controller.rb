@@ -7,10 +7,10 @@ class CommentsController < ApplicationController
     @comment.user = current_user
 
     if @comment.save
-      redirect_to detail_post_path(@post), notice: 'コメントが投稿されました'
+      redirect_to detail_post_path(@post), notice: "コメントが投稿されました"
     else
       flash.now[:alert] = @comment.errors.full_messages.join(", ")
-      redirect_to detail_post_path(@post), alert: 'コメントの投稿に失敗しました'
+      redirect_to detail_post_path(@post), alert: "コメントの投稿に失敗しました"
     end
   end
 
@@ -20,10 +20,10 @@ class CommentsController < ApplicationController
     @comment.user = current_user
 
     if @comment.save
-      redirect_to sureddo_path(@sureddo), notice: 'コメントが投稿されました'
+      redirect_to sureddo_path(@sureddo), notice: "コメントが投稿されました"
     else
       flash.now[:alert] = @comment.errors.full_messages.join(", ")
-      redirect_to sureddo_path(@sureddo), alert: 'コメントの投稿に失敗しました'
+      redirect_to sureddo_path(@sureddo), alert: "コメントの投稿に失敗しました"
     end
   end
 
