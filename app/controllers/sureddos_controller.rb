@@ -11,7 +11,8 @@ class SureddosController < ApplicationController
   end
 
   def show
-    @sureddo = Sureddo.find(params[:id])
+    @sureddo = Sureddo.find(params[:id])  # 特定のsureddoを取得
+    @comments = @sureddo.comments  # このsureddoに関連するコメントを取得
   end
 
   def create
