@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     member do
       get :detail
     end
-    resources :comments, only: [ :create ], controller: "comments", action: "create_for_sureddo"
+    resources :comments, only: [ :create ], controller: "comments", action: "create_for_post"
   end
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 end
