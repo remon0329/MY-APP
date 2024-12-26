@@ -1,15 +1,15 @@
 <h3>動画投稿</h3>
 
 <%= form_with model: @post, local: true do |form| %>
-  <div>
-    <%= form.label :タイトル %>
-    <%= form.text_field :title %>
-  </div>
+  <div class="form-group">
+      <%= form.label :title, 'タイトル' %>
+      <%= form.text_field :title, class: 'form-control', required: true %>
+    </div>
 
-  <div>
-    <%= form.label :説明 %>
-    <%= form.text_area :description %>
-  </div>
+    <div class="form-group">
+      <%= form.label :description, '説明欄' %>
+      <%= form.text_area :description, class: 'form-control', required: true %>
+    </div>
 
   <div>
     <%= form.label :video_url, "YouTubeの動画URL" %>
@@ -23,6 +23,6 @@
   </div>
 
   <div>
-    <%= form.submit "投稿する" %>
+    <%= form.submit "投稿する", class: 'btn btn-primary' %>
   </div>
 <% end %>
