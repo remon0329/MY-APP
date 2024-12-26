@@ -31,8 +31,12 @@
     <h4>タイトル: <%= link_to post.title, detail_post_path(post) %></h4>
     <p><%= post.description %></p>
     <% if current_user == post.user %>
-      <%= link_to '編集', edit_post_path(post), class: 'btn btn-primary' %>
-      <%= link_to '削除', post_path(post), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger' %>
+      <div class="button-group">
+        <%= link_to '編集', edit_post_path(post), class: 'btn btn-primary' %>
+        <%= form_with(model: post, method: :delete, local: true, class: 'd-inline') do |form| %>
+          <%= form.submit '削除', class: 'btn btn-danger' %>
+        <% end %>
+      </div>
     <% end %>
   </div>
 <% end %>
@@ -45,8 +49,12 @@
     <h4>タイトル: <%= link_to sureddo.title, sureddo_path(sureddo) %></h4>
     <p><%= sureddo.description %></p>
     <% if current_user == sureddo.user %>
-      <%= link_to '編集', edit_sureddo_path(sureddo), class: 'btn btn-primary' %>
-      <%= link_to '削除', sureddo_path(sureddo), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger' %>
+      <div class="button-group">
+        <%= link_to '編集', edit_sureddo_path(sureddo), class: 'btn btn-primary' %>
+        <%= form_with(model: sureddo, method: :delete, local: true) do |form| %>
+            <%= form.submit '削除', class: 'btn btn-danger' %>
+        <% end %>
+      </div>
     <% end %>
   </div>
 <% end %>

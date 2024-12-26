@@ -32,7 +32,7 @@ class PostsController < ApplicationController
 
   def show
     @user = current_user
-    @post = Post.find(params[:id])
+
     @posts = @user.posts
     @sureddos = @user.sureddos
   end
@@ -62,6 +62,8 @@ class PostsController < ApplicationController
   end
 
   def destroy
+    @post = Post.find(params[:id])
+    @post.comments.destroy_all
     @post.destroy
     redirect_to root_path, notice: "投稿が削除されました"
   end
@@ -74,9 +76,5 @@ class PostsController < ApplicationController
 
   def set_post
     @post = Post.find(params[:id])
-    # 投稿が現在のユーザーのものであることを確認
-    if @post.user != current_user
-      redirect_to root_path, alert: "自分の投稿のみ編集・削除できます"
-    end
   end
 end

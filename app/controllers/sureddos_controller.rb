@@ -40,6 +40,8 @@ class SureddosController < ApplicationController
   end
 
   def destroy
+    @sureddo = Sureddo.find(params[:id])
+    @sureddo.comments.destroy_all
     @sureddo.destroy
     redirect_to sureddos_path, notice: "投稿が削除されました"
   end
