@@ -7,9 +7,6 @@
   <div class="posts">
     <% @posts.each do |post| %>
       <div class="post">
-        <img src="<%= post.thumbnail %>">
-        <h4>タイトル: <%= link_to post.title, detail_post_path(post) %></h4>
-        <p>投稿者: <%= post.user_name %></p>
         <% if post.video_file.attached? %>
           <video width="320" height="240" controls>
             <source src="<%= url_for(post.video_file) %>" type="video/mp4">
@@ -26,6 +23,9 @@
             <iframe width="320" height="240" src="https://www.youtube.com/embed/<%= video_id %>" frameborder="0" allowfullscreen></iframe>
           <% end %>
         <% end %>
+        <p>投稿者: <%= post.user_name %></p>
+        <h4>タイトル: <%= link_to post.title, detail_post_path(post) %></h4>
+        <p>説明欄: <%= post.description %></p>
       </div>
     <% end %>
   </div>
