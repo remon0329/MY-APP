@@ -27,8 +27,10 @@
           <%= link_to 'ログイン', new_user_session_path, class: 'btn btn-primary' %>
         <% end %>
       </div>
-      <%= link_to '動画投稿', new_post_path, class: 'btn btn-primary' %>
-      <%= link_to 'スレッド投稿', new_sureddo_path, class: 'btn btn-primary' %>
+      <% if user_signed_in? %>
+        <%= link_to '動画投稿', new_post_path, class: 'btn btn-primary' %>
+        <%= link_to 'スレッド投稿', new_sureddo_path, class: 'btn btn-primary' %>
+      <% end %>
 
     </div>
   </nav>

@@ -89,7 +89,7 @@ Rails.application.configure do
     enable_starttls_auto: true
   }
 
-  config.action_mailer.default_url_options = { host: "https://my-app-2t3s.onrender.com" }
+  config.action_mailer.default_url_options = { host: "https://games-memory-service.onrender.com" }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
