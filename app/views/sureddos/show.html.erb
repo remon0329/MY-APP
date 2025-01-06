@@ -11,15 +11,20 @@
   <p>説明: <%= @sureddo.description %></p>
 </div>
 
+<% if user_signed_in? %>
 <h5>コメントを投稿しよう！</h5>
-<%= form_with(model: [@sureddo, Comment.new], local: true) do |form| %>
-  <div class="form-group">
-    <%= form.label :content, 'コメント' %>
-    <%= form.text_area :content, class: 'form-control', required: true %>
-  </div>
-  <div class="form-group">
-    <%= form.submit '投稿', class: 'btn btn-primary' %>
-  </div>
+  <%= form_with(model: [@sureddo, Comment.new], local: true) do |form| %>
+    <div class="form-group">
+      <%= form.label :content, 'コメント投稿欄！' %>
+      <%= form.text_area :content, class: 'form-control', required: true %>
+    </div>
+    
+    <div class="form-group">
+      <%= form.submit '投稿', class: "btn btn-primary" %>
+    </div>
+  <% end %>
+<% else %>
+  <%= link_to 'ログインをするとコメントできる！！', new_user_session_path, class: 'btn' %>
 <% end %>
 
 <h5>コメント一覧</h5>

@@ -28,7 +28,7 @@
       <% end %>
     <% end %>
 
-    <h4>タイトル: <%= link_to post.title, detail_post_path(post) %></h4>
+    <h4>タイトル: <%= link_to post.title, detail_post_path(post),  class: 'btn' %></h4>
     <p><%= post.description %></p>
     <% if current_user == post.user %>
       <div class="button-group">
@@ -46,7 +46,7 @@
     <% if sureddo.image.attached? %>
       <img src="<%= url_for(sureddo.image) %>" alt="スレッド画像">
     <% end %>
-    <h4>タイトル: <%= link_to sureddo.title, sureddo_path(sureddo) %></h4>
+    <h4>タイトル: <%= link_to sureddo.title, sureddo_path(sureddo),  class: 'btn' %></h4>
     <p><%= sureddo.description %></p>
     <% if current_user == sureddo.user %>
       <div class="button-group">

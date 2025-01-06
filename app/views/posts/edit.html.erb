@@ -14,26 +14,26 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :title %>
+    <%= form.label :タイトル %>
     <%= form.text_field :title %>
   </div>
 
   <div class="field">
-    <%= form.label :description %>
+    <%= form.label :説明欄 %>
     <%= form.text_area :description %>
   </div>
 
   <div class="field">
-    <%= form.label :video_url %>
+    <%= form.label :youtube_url %>
     <%= form.text_field :video_url %>
   </div>
 
   <div class="field">
-    <%= form.label :video_file %>
+    <%= form.label :動画ファイル %>
     <%= form.file_field :video_file %>
   </div>
 
   <div class="actions">
-    <%= form.submit "更新" %>
+    <%= form.submit "更新", class: 'btn btn-primary' %>
   </div>
 <% end %>
