@@ -13,23 +13,26 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :タイトル %>
-    <%= form.text_field :title %>
+  <div class="form-group">
+    <%= form.label :title, 'タイトル' %>
+    <%= form.text_field :title, class: 'form-control', required: true %>
   </div>
 
-  <div class="field">
-    <%= form.label :説明欄 %>
-    <%= form.text_area :description %>
+  <div class="form-group">
+    <%= form.label :description, '説明欄' %>
+    <%= form.text_area :description, class: 'form-control', required: true %>
   </div>
 
-  <div class="field">
-    <%= form.label :youtube_url %>
+<p>YouTubeの動画URLと動画ファイルを同時に選択出来ます!</p>
+
+  <div>
+    <%= form.label :video_url, "YouTubeの動画URL" %>
     <%= form.text_field :video_url %>
+    <small>例: https://www.youtube.com/watch?v=XXXXXX</small>
   </div>
 
-  <div class="field">
-    <%= form.label :動画ファイル %>
+  <div>
+    <%= form.label :video_file, "動画ファイルをアップロード" %>
     <%= form.file_field :video_file %>
   </div>
 

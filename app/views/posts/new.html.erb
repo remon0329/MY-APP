@@ -2,14 +2,16 @@
 
 <%= form_with model: @post, local: true do |form| %>
   <div class="form-group">
-      <%= form.label :title, 'タイトル' %>
-      <%= form.text_field :title, class: 'form-control', required: true %>
-    </div>
+    <%= form.label :title, 'タイトル' %>
+    <%= form.text_field :title, class: 'form-control', required: true %>
+  </div>
 
-    <div class="form-group">
-      <%= form.label :description, '説明欄' %>
-      <%= form.text_area :description, class: 'form-control', required: true %>
-    </div>
+  <div class="form-group">
+    <%= form.label :description, '説明欄' %>
+    <%= form.text_area :description, class: 'form-control', required: true %>
+  </div>
+
+<p>YouTubeの動画URLと動画ファイルを同時に選択出来ます!</p>
 
   <div>
     <%= form.label :video_url, "YouTubeの動画URL" %>
