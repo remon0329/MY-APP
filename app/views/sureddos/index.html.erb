@@ -6,7 +6,9 @@
   <div id="sureddo-posts" class="posts">
     <% @sureddos.each do |sureddo| %>
       <div class="post">
-        <img src="<%= url_for(sureddo.image) %>" alt="画像が読み込めませんでした">
+        <% if sureddo.image.present? %>
+          <img src="<%= url_for(sureddo.image) %>" alt="画像が読み込めませんでした">
+        <% end %>
         <p>投稿者: <%= sureddo.user_name %></p>
         <h4>タイトル: <%= link_to sureddo.title, sureddo_path(sureddo),  class: 'btn' %></h4>
         <p>説明欄: <%= sureddo.description %></p>
