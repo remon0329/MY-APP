@@ -2,7 +2,7 @@ class Post < ApplicationRecord
   belongs_to :user
   has_many :comments, dependent: :destroy
   has_one_attached :video_file
-  validates :video_url_or_video_file, presence: { message: "YouTubeの動画URLまたは動画ファイルを入力してください" }
+  validate :video_url_or_video_file
 
   private
 
