@@ -16,8 +16,8 @@
 
         <% if post.video_url.present? %>
           <% 
-            video_id = post.video_url.match(/(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+|(?:v|e(?:mbed)?)\/?([^\/\n\s]*))|youtu\.be\/([^\/\n\s]+))/)
-            video_id = video_id[1] || video_id[2] || video_id[3]
+            video_id_match = post.video_url.match(/(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+|(?:v|e(?:mbed)?)\/?([^\/\n\s]*))|youtu\.be\/([^\/\n\s]+))/)
+            video_id = video_id_match ? (video_id_match[1] || video_id_match[2] || video_id_match[3]) : nil
           %>
           <% if video_id %>
             <iframe width="320" height="240" src="https://www.youtube.com/embed/<%= video_id %>" frameborder="0" allowfullscreen></iframe>
