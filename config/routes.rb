@@ -8,8 +8,9 @@ Rails.application.routes.draw do
     get "/users/sign_out" => "devise/sessions#destroy"
   end
   root "posts#top"
-  get 'posts/search', to: 'posts#search'
+  get "posts/search", to: "posts#search"
   get "posts/sureddo", to: "posts#sureddo", as: "sureddo_posts"
+  get "posts/search", to: "sureddos#search", as: "sureddo_search"
   resources :sureddos, only: [ :index, :create, :new, :show, :edit, :update, :destroy ] do
     resources :comments, only: [ :create ], controller: "comments", action: "create_for_sureddo"
   end
