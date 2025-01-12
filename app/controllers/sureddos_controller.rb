@@ -3,8 +3,22 @@ class SureddosController < ApplicationController
   before_action :set_sureddo, only: [ :show, :edit, :update, :destroy ]
 
   def index
-    @posts = Post.all
-    @sureddos = Sureddo.all
+    # 検索クエリが渡された場合にタイトルで部分一致検索
+    if params[:query].present?
+      @sureddos = Sureddo.where("title LIKE ?", "%#{params[:query]}%")
+    else
+      # クエリがない場合は全て表示
+      @sureddos = Sureddo.all
+    end
+  end
+
+  def search
+    if params[:term].present?
+      sureddos = Sureddo.where("title LIKE ?", "%#{params[:term]}%").limit(10).pluck(:title)
+      render json: sureddos
+    else
+      render json: []
+    end
   end
 
   def new

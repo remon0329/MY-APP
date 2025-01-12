@@ -1,4 +1,12 @@
 <%= render 'shared/header' %>
+
+<div class="search">
+  <form class="search-form" action="<%= sureddos_path %>" method="get">
+    <input type="text" name="query" placeholder="タイトルで検索" class="search-input">
+    <button type="submit" class="search-btn">検索</button>
+  </form>
+</div>
+
 <%= link_to '掲示板一覧はこちら！', root_path, class: 'btn btn-secondary' %>
 
 <div class="main-content">
