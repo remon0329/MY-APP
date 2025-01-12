@@ -13,8 +13,25 @@ class PostsController < ApplicationController
   end
 
   def top
-    @posts = Post.all
+    # 検索クエリが存在すれば、それを使って検索
+    if params[:query].present?
+      @posts = Post.where("title LIKE ?", "%#{params[:query]}%")
+    else
+      # クエリがない場合は全件表示
+      @posts = Post.all
+    end
+
+    # 追加でsureddosも取得（必要なら）
     @sureddos = Sureddo.all
+  end
+
+  def search
+    if params[:term].present?
+      posts = Post.where("title LIKE ?", "%#{params[:term]}%").limit(10).pluck(:title)
+      render json: posts
+    else
+      render json: []
+    end
   end
 
   def new
