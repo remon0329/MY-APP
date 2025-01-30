@@ -3,13 +3,10 @@ class PostsController < ApplicationController
   before_action :set_post, only: [ :edit, :update, :destroy ]
 
   def index
-    @q = Post.ransack(params[:q]) # ransackで検索フォームを受け取る
-    if params[:q].present?
-      @posts = @q.result(distinct: true) # 検索結果を取得
-    else
-      @posts = Post.all
+    @posts = Post.all
+    if params[:query].present?
+      @posts = @posts.where("title LIKE ?", "%#{params[:query]}%")
     end
-    @sureddos = Sureddo.all
   end
 
   def sureddo
@@ -18,23 +15,19 @@ class PostsController < ApplicationController
   end
 
   def top
-    @q = Post.ransack(params[:q]) # ransackで検索フォームを受け取る
+    @q = Post.ransack(params[:q])
     if params[:q].present?
-      @posts = @q.result(distinct: true) # 検索結果を取得
+      @posts = @q.result(distinct: true)
     else
       @posts = Post.all
     end
-    @sureddos = Sureddo.all
   end
 
   def search
-    if params[:term].present?
-      @q = Post.ransack(title_cont: params[:term]) # termに基づいて検索
-      posts = @q.result.limit(10).pluck(:title) # 結果を制限し、タイトルのみを取得
-      render json: posts
-    else
-      render json: []
-    end
+    @posts = Post.where("title LIKE ?", "%#{query}%")
+    respond_to do |format|
+      format.js
+    end# JSON形式で返す
   end
 
   def new
