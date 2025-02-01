@@ -24,10 +24,14 @@ class PostsController < ApplicationController
   end
 
   def search
-    @posts = Post.where("title LIKE ?", "%#{query}%")
+    # Ransackによる曖昧検索
+    @q = Post.ransack(params[:q])
+    @posts = @q.result(distinct: true)
+  
     respond_to do |format|
-      format.js
-    end# JSON形式で返す
+      format.js # JavaScript形式で返す
+      format.html { render :search } # 通常のHTML形式
+    end
   end
 
   def new
