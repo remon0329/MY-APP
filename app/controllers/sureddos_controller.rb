@@ -3,21 +3,21 @@ class SureddosController < ApplicationController
   before_action :set_sureddo, only: [ :show, :edit, :update, :destroy ]
 
   def index
-    # 検索クエリが渡された場合にタイトルで部分一致検索
-    if params[:query].present?
-      @sureddos = Sureddo.where("title LIKE ?", "%#{params[:query]}%")
+    @q = Sureddo.ransack(params[:q])
+    if params[:q].present?
+      @sureddos = @q.result(distinct: true)
     else
-      # クエリがない場合は全て表示
       @sureddos = Sureddo.all
     end
   end
 
   def search
-    if params[:term].present?
-      sureddos = Sureddo.where("title LIKE ?", "%#{params[:term]}%").limit(10).pluck(:title)
-      render json: sureddos
-    else
-      render json: []
+    @q = Sureddo.ransack(title_cont: params[:q])
+    @sureddos = @q.result(distinct: true) # 検索結果を取得
+    respond_to do |format|
+      format.js
+      format.json { render json: @sureddos.pluck(:title) }
+      format.html { render :search }
     end
   end
 
@@ -68,5 +68,24 @@ class SureddosController < ApplicationController
 
   def sureddo_params
     params.require(:sureddo).permit(:title, :description, :image)
+  end
+
+  def search_sureddos(query)
+    conditions = [
+        "title ILIKE ?",
+        "title ILIKE ?",
+        "title ILIKE ?",
+        "title ILIKE ?" ]
+
+    search_queries = [
+        "%#{query}%",
+        "%#{query.tr('ぁ-ん', 'ァ-ン')}%",
+        "%#{query.tr('ァ-ン', 'ぁ-ん')}%",
+        "%#{query.tr('a-zA-Z', '')}%" ]
+
+    if query.match?(/[a-zA-Z]/)
+      sureddos = sureddos.where("title ILIKE ?", "%#{query}%")
+    end
+    sureddos
   end
 end

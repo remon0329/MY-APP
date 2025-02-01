@@ -1,16 +1,8 @@
 <%= render 'shared/header' %>
 
-<div class="search">
-  <form class="search-form" action="<%= sureddos_path %>" method="get">
-    <input type="text" name="query" placeholder="タイトルで検索" class="search-input"
-           data-controller="autocomplete"
-           data-autocomplete-url="<%= sureddo_search_path %>"
-           data-action="autocomplete#search">
-    <button type="submit" class="search-btn">検索</button>
-  </form>
-</div>
-
 <%= link_to '掲示板一覧はこちら！', root_path, class: 'btn btn-secondary' %>
+
+<%= render 'sureddos/search_form' %>
 
 <div class="main-content">
   <h4>スレッド一覧にようこそ！</h4>

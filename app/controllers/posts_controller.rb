@@ -3,9 +3,11 @@ class PostsController < ApplicationController
   before_action :set_post, only: [ :edit, :update, :destroy ]
 
   def index
-    @posts = Post.all
-    if params[:query].present?
-      @posts = @posts.where("title LIKE ?", "%#{params[:query]}%")
+    @q = Post.ransack(params[:q])
+    if params[:q].present?
+      @posts = @q.result(distinct: true)
+    else
+      @posts = Post.all
     end
   end
 
@@ -106,10 +108,6 @@ class PostsController < ApplicationController
         "%#{query.tr('ぁ-ん', 'ァ-ン')}%",
         "%#{query.tr('ァ-ン', 'ぁ-ん')}%",
         "%#{query.tr('a-zA-Z', '')}%" ]
-
-    posts = Post.where(conditions.join(" OR "), *search_queries)
-                # AIが生成した投稿は（userテーブルと結合して検索し、投稿IDを取得してから）除外
-                .where.not(id: Post.joins(:user).where(users: { name: "OPEN_AI_ANSWER" }).select(:id))
 
     if query.match?(/[a-zA-Z]/)
         posts = posts.where("title ILIKE ?", "%#{query}%")
