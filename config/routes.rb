@@ -18,7 +18,9 @@ Rails.application.routes.draw do
     member do
       get :detail
     end
-    get :search, on: :collection
+    collection do
+      get :search
+    end
     resources :comments, only: [ :create ], controller: "comments", action: "create_for_post"
   end
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?

@@ -4,7 +4,7 @@ class Post < ApplicationRecord
   has_one_attached :video_file
   validate :video_url_or_video_file
   def self.ransackable_attributes(auth_object = nil)
-    ["body", "created_at", "description", "id", "id_value", "thumbnail", "title", "updated_at", "user_id", "user_name", "video_file", "video_url"]
+    [ "body", "created_at", "description", "id", "id_value", "thumbnail", "title", "updated_at", "user_id", "user_name", "video_file", "video_url" ]
   end
 
   private

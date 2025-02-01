@@ -7,11 +7,11 @@ export default class extends Controller {
     const query = this.inputTarget.value;
 
     if (query.length > 0) {
-      // URLパラメータにqueryを追加してGETリクエスト
-      fetch(`/posts/search?q[title_cont]=${query}`, { method: "GET" })
+      // 検索リクエストのURL
+      fetch(`/posts/search?q[title_cont]=${encodeURIComponent(query)}`, { method: "GET" })
         .then(response => response.json())
         .then(data => {
-          this.resultsTarget.innerHTML = "";  // 検索結果をリセット
+          this.resultsTarget.innerHTML = ""; // 検索結果をリセット
 
           if (data.length > 0) {
             data.forEach(post => {
@@ -38,6 +38,6 @@ export default class extends Controller {
 
   selectTitle(title) {
     this.inputTarget.value = title;  // 入力欄に選択したタイトルを設定
-    this.resultsTarget.innerHTML = "";  // 検索結果を非表示
+    this.resultsTarget.innerHTML = ""; // 検索結果を非表示
   }
 }

@@ -1,8 +1,8 @@
 <div class="container mx-auto px-4 py-8">
-  <%= search_form_for @q, url: root_path, remote: true do |f| %>
+  <%= search_form_for @q, url: root_path do |f| %>
     <div class="relative flex rounded-md">
       <div data-controller="autocomplete" data-autocomplete-url-value="/posts/search" role="combobox">
-        <%= f.search_field :title_cont, data: { autocomplete_target: 'input', action: 'input->autocomplete#search' },
+        <%= f.search_field :title_cont, data: { autocomplete_target: 'input' },
               class: "w-[300px] py-3 px-4 pl-11 block border-gray-200 shadow-sm rounded-md text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400", 
               placeholder: "タイトルで検索してみよう" %>
         <%= f.hidden_field :title, data: { autocomplete_target: 'hidden' } %>

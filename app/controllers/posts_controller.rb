@@ -24,13 +24,12 @@ class PostsController < ApplicationController
   end
 
   def search
-    # Ransackによる曖昧検索
-    @q = Post.ransack(params[:q])
-    @posts = @q.result(distinct: true)
-  
+    @q = Post.ransack(title_cont: params[:q])
+    @posts = @q.result(distinct: true) # 検索結果を取得
     respond_to do |format|
-      format.js # JavaScript形式で返す
-      format.html { render :search } # 通常のHTML形式
+      format.js
+      format.json { render json: @posts.pluck(:title) }
+      format.html { render :search }
     end
   end
 
@@ -93,5 +92,28 @@ class PostsController < ApplicationController
 
   def set_post
     @post = Post.find(params[:id])
+  end
+
+  def search_posts(query)
+    conditions = [
+        "title ILIKE ?",
+        "title ILIKE ?",
+        "title ILIKE ?",
+        "title ILIKE ?" ]
+
+    search_queries = [
+        "%#{query}%",
+        "%#{query.tr('ぁ-ん', 'ァ-ン')}%",
+        "%#{query.tr('ァ-ン', 'ぁ-ん')}%",
+        "%#{query.tr('a-zA-Z', '')}%" ]
+
+    posts = Post.where(conditions.join(" OR "), *search_queries)
+                # AIが生成した投稿は（userテーブルと結合して検索し、投稿IDを取得してから）除外
+                .where.not(id: Post.joins(:user).where(users: { name: "OPEN_AI_ANSWER" }).select(:id))
+
+    if query.match?(/[a-zA-Z]/)
+        posts = posts.where("title ILIKE ?", "%#{query}%")
+    end
+    posts
   end
 end
