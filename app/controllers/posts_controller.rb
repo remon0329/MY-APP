@@ -2,6 +2,15 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, only: [ :create, :edit, :update, :destroy, :new, :show ]
   before_action :set_post, only: [ :edit, :update, :destroy ]
 
+  def index
+    @q = Post.ransack(params[:q])
+    if params[:q].present?
+      @posts = @q.result(distinct: true)
+    else
+      @posts = Post.all
+    end
+  end
+
   def sureddo
     @posts = Post.all
     @sureddos = Sureddo.all

@@ -1,0 +1,37 @@
+<%= render 'shared/header' %>
+
+<%= link_to 'スレッド一覧', sureddos_path, class: 'btn btn-primary' %>
+
+<%= render 'posts/search_form' %>
+
+<div class="main-content">
+  <h3>動画投稿一覧！</h3>
+  <% if params[:query].present? %>
+    <h4>検索結果: "<%= params[:query] %>"</h4>
+  <% end %>
+  <div class="posts">
+    <% @posts.each do |post| %>
+      <div class="post">
+        <% if post.video_file.attached? %>
+          <video width="320" height="240" controls>
+            <source src="<%= url_for(post.video_file) %>" type="video/mp4">
+            お使いのブラウザでは動画再生に対応していません。
+          </video>
+        <% end %>
+
+        <% if post.video_url.present? %>
+          <% 
+            video_id_match = post.video_url.match(/(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+|(?:v|e(?:mbed)?)\/?([^\/\n\s]*))|youtu\.be\/([^\/\n\s]+))/)
+            video_id = video_id_match ? (video_id_match[1] || video_id_match[2] || video_id_match[3]) : nil
+          %>
+          <% if video_id %>
+            <iframe width="320" height="240" src="https://www.youtube.com/embed/<%= video_id %>" frameborder="0" allowfullscreen></iframe>
+          <% end %>
+        <% end %>
+        <p>投稿者: <%= post.user_name %></p>
+        <h4>タイトル: <%= link_to post.title, detail_post_path(post),  class: 'btn' %></h4>
+        <p>説明欄: <%= post.description %></p>
+      </div>
+    <% end %>
+  </div>
+</div>
