@@ -31,6 +31,7 @@
         <p>投稿者: <%= post.user_name %></p>
         <h4>タイトル: <%= link_to post.title, detail_post_path(post),  class: 'btn' %></h4>
         <p>説明欄: <%= post.description %></p>
+        <%= render "likes/btn", post: post %>
       </div>
     <% end %>
   </div>
