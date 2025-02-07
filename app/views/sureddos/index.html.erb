@@ -15,6 +15,7 @@
         <p>投稿者: <%= sureddo.user_name %></p>
         <h4>タイトル: <%= link_to sureddo.title, sureddo_path(sureddo),  class: 'btn' %></h4>
         <p>説明欄: <%= sureddo.description %></p>
+        <%= render "likes/sureddo_btn", sureddo: sureddo %>
       </div>
     <% end %>
   </div>

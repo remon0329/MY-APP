@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     collection do
       get :search
     end
+    resource :like, only: [ :create, :destroy ]
     resources :comments, only: [ :create ], controller: "comments", action: "create_for_sureddo"
   end
 

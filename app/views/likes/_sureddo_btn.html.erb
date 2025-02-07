@@ -1,0 +1,11 @@
+<% if sureddo.liked_by?(current_user) %>
+  <%= button_to sureddo_like_path(sureddo), method: :delete do %>
+    <i class="fas fa-heart" aria-hidden="true" style="color: red;"></i>
+    <%= sureddo.likes.count %> いいね
+  <% end %>
+<% else %>
+  <%= button_to sureddo_like_path(sureddo), method: :post do %>
+    <i class="fas fa-heart" aria-hidden="true"></i>
+    <%= sureddo.likes.count %> いいね
+  <% end %>
+<% end %>
