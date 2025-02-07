@@ -55,6 +55,13 @@ class PostsController < ApplicationController
     @sureddos = @user.sureddos
   end
 
+  def like_show
+    # ユーザーが「いいね」をしたPostを取得
+    @posts = current_user.likes.where.not(post_id: nil).map(&:post)
+    # ユーザーが「いいね」をしたSureddoを取得
+    @sureddos = current_user.likes.where.not(sureddo_id: nil).map(&:sureddo)
+  end
+
   def create
     puts current_user.inspect
     @post = current_user.posts.build(post_params)

@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       get :detail
     end
     collection do
+      get :like_show
       get :search
     end
     resource :like, only: [ :create, :destroy ]

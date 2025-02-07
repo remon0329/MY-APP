@@ -7,6 +7,8 @@
   <%= link_to 'ログアウト', destroy_user_session_path, data: { method: :delete }, class: 'btn btn-danger' %>
 </div>
 
+<%= link_to 'いいねした投稿はこちらから！', like_show_posts_path, class: 'btn btn-info' %>
+
 <h2>自分の投稿一覧</h2>
 <% @posts.each do |post| %>
   <div class="post">
