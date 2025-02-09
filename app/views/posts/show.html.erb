@@ -31,7 +31,12 @@
     <% end %>
 
     <h4>タイトル: <%= link_to post.title, detail_post_path(post),  class: 'btn' %></h4>
-    <p><%= post.description %></p>
+    <p>説明: <%= post.description %></p>
+    <p>タグ: 
+      <%= post.tags.map do |tag| %>
+        <%= link_to tag.name, posts_path(tag_id: tag.id), class: 'badge badge-info' %> 
+      <% end.reject(&:blank?).join(', ') %>
+    </p>
     <% if current_user == post.user %>
       <div class="button-group">
         <%= link_to '編集', edit_post_path(post), class: 'btn btn-primary' %>
@@ -49,7 +54,12 @@
       <img src="<%= url_for(sureddo.image) %>" alt="スレッド画像">
     <% end %>
     <h4>タイトル: <%= link_to sureddo.title, sureddo_path(sureddo),  class: 'btn' %></h4>
-    <p><%= sureddo.description %></p>
+    <p>説明: <%= sureddo.description %></p>
+    <p>タグ: 
+      <%= sureddo.tags.map do |tag| %>
+        <%= link_to tag.name, sureddos_path(tag_id: tag.id), class: 'badge badge-info' %>
+      <% end.reject(&:blank?).join(', ') %>
+    </p>
     <% if current_user == sureddo.user %>
       <div class="button-group">
         <%= link_to '編集', edit_sureddo_path(sureddo), class: 'btn btn-primary' %>

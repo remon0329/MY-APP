@@ -9,6 +9,11 @@
 
   <h4>タイトル: <%= @sureddo.title %></h4>
   <p>説明: <%= @sureddo.description %></p>
+  <p>タグ: 
+    <%= @sureddo.tags.map do |tag| %>
+      <%= link_to tag.name, sureddos_path(tag_id: tag.id), class: 'badge badge-info' %>
+    <% end.reject(&:blank?).join(', ') %>
+  </p>
 </div>
 
 <% if user_signed_in? %>

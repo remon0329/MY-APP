@@ -15,6 +15,11 @@
         <p>投稿者: <%= sureddo.user_name %></p>
         <h4>タイトル: <%= link_to sureddo.title, sureddo_path(sureddo),  class: 'btn' %></h4>
         <p>説明欄: <%= sureddo.description %></p>
+        <p>タグ: 
+          <%= sureddo.tags.map do |tag| %>
+            <%= link_to tag.name, sureddos_path(tag_id: tag.id), class: 'badge badge-info' %>
+          <% end.reject(&:blank?).join(', ') %>
+        </p>
         <%= render "likes/sureddo_btn", sureddo: sureddo %>
       </div>
     <% end %>

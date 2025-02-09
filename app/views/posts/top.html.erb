@@ -31,6 +31,11 @@
         <p>投稿者: <%= post.user_name %></p>
         <h4>タイトル: <%= link_to post.title, detail_post_path(post),  class: 'btn' %></h4>
         <p>説明欄: <%= post.description %></p>
+        <p>タグ: 
+          <%= post.tags.map do |tag| %>
+            <%= link_to tag.name, posts_path(tag_id: tag.id), class: 'badge badge-info' %> 
+          <% end.reject(&:blank?).join(', ') %>
+        </p>
         <%= render "likes/btn", post: post %>
       </div>
     <% end %>
