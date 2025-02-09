@@ -10,7 +10,6 @@ class Post < ApplicationRecord
     [ "body", "created_at", "description", "id", "id_value", "thumbnail", "title", "updated_at", "user_id", "user_name", "video_file", "video_url" ]
   end
 
-
   def tag_list=(tags)
     self.tags = tags.split(",").map { |tag| Tag.find_or_create_by(name: tag.strip) }
   end
