@@ -26,6 +26,11 @@
 
   <h4>タイトル: <%= @post.title %></h4>
   <p>説明欄: <%= @post.description %></p>
+  <p>タグ: 
+    <%= @post.tags.map do |tag| %>
+      <%= link_to tag.name, posts_path(tag_id: tag.id), class: 'badge badge-info' %> 
+    <% end.reject(&:blank?).join(', ') %>
+  </p>
 </div>
 
 <% if user_signed_in? %>

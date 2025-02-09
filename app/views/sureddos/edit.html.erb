@@ -23,6 +23,12 @@
       <% end %>
     </div>
 
+    <div>
+      <%= form.label :tag_list, "タグ" %>
+      <%= form.text_field :tag_list, value: @sureddo.tags.map(&:name).join(", "), class: 'form-control' %>
+      <small>タグは,で区切って入力してください。（例)Switch,3DS,PlayStation4,PlayStation5</small>
+    </div>
+
     <div class="form-group">
       <%= form.submit '更新', class: 'btn btn-primary' %>
     </div>

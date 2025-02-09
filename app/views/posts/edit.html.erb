@@ -37,6 +37,12 @@
     <%= form.file_field :video_file %>
   </div>
 
+  <div>
+    <%= form.label :tag_list, "タグ" %>
+    <%= form.text_field :tag_list, value: @post.tags.map(&:name).join(", "), class: 'form-control' %>
+    <small>タグはカンマで区切って入力してください。（例)Switch,3DS,PlayStation4,PlayStation5</small>
+  </div>
+
   <div class="actions">
     <%= form.submit "更新", class: 'btn btn-primary' %>
   </div>

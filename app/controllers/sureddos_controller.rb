@@ -34,6 +34,7 @@ class SureddosController < ApplicationController
     @sureddo = current_user.sureddos.build(sureddo_params)
     @sureddo.user_id = current_user.id
     @sureddo.user_name = current_user.name
+    @sureddo.tag_list = params[:sureddo][:tag_list]
     if @sureddo.save
       redirect_to sureddos_path, notice: "投稿が作成されました"
     else
@@ -67,7 +68,7 @@ class SureddosController < ApplicationController
   end
 
   def sureddo_params
-    params.require(:sureddo).permit(:title, :description, :image)
+    params.require(:sureddo).permit(:title, :description, :image, :tag_list)
   end
 
   def search_sureddos(query)
