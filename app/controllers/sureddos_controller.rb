@@ -3,17 +3,30 @@ class SureddosController < ApplicationController
   before_action :set_sureddo, only: [ :show, :edit, :update, :destroy ]
 
   def index
-    @q = Sureddo.ransack(params[:q])
-    if params[:q].present?
-      @sureddos = @q.result(distinct: true)
+    @q = Sureddo.ransack(params[:q]) # ransackによる検索
+    # タグで絞り込む処理
+    if params[:tag_id].present?
+      tag = Tag.find(params[:tag_id]) # タグIDでタグを取得
+      @sureddos = tag.sureddos.distinct # タグに関連するSureddoを取得
     else
-      @sureddos = Sureddo.all
+      # タグによる絞り込みがなければ通常の検索
+      if params[:q].present?
+        @sureddos = @q.result(distinct: true)
+      else
+        @sureddos = Sureddo.all # すべてのSureddoを取得
+      end
     end
   end
 
   def search
-    @q = Sureddo.ransack(title_cont: params[:q])
-    @sureddos = @q.result(distinct: true) # 検索結果を取得
+    @q = Sureddo.ransack(title_cont: params[:q]) # タイトルを検索
+    # タグで絞り込む処理
+    if params[:tag_id].present?
+      tag = Tag.find(params[:tag_id])
+      @sureddos = tag.sureddos.distinct # タグに関連するSureddoを取得
+    else
+      @sureddos = @q.result(distinct: true) # ransack検索結果
+    end
     respond_to do |format|
       format.js
       format.json { render json: @sureddos.pluck(:title) }

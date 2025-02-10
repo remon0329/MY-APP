@@ -4,10 +4,17 @@ class PostsController < ApplicationController
 
   def index
     @q = Post.ransack(params[:q])
-    if params[:q].present?
-      @posts = @q.result(distinct: true)
+    # タグでの絞り込み
+    if params[:tag_id].present?
+      tag = Tag.find(params[:tag_id]) # タグIDでタグを検索
+      @posts = tag.posts.distinct # タグに関連する投稿を取得
     else
-      @posts = Post.all
+      # 通常の検索
+      if params[:q].present?
+        @posts = @q.result(distinct: true)
+      else
+        @posts = Post.all
+      end
     end
   end
 
@@ -18,16 +25,29 @@ class PostsController < ApplicationController
 
   def top
     @q = Post.ransack(params[:q])
-    if params[:q].present?
-      @posts = @q.result(distinct: true)
+    # タグでの絞り込み
+    if params[:tag_id].present?
+      tag = Tag.find(params[:tag_id]) # タグIDでタグを検索
+      @posts = tag.posts.distinct # タグに関連する投稿を取得
     else
-      @posts = Post.all
+      # 通常の検索
+      if params[:q].present?
+        @posts = @q.result(distinct: true)
+      else
+        @posts = Post.all
+      end
     end
   end
 
   def search
     @q = Post.ransack(title_cont: params[:q])
-    @posts = @q.result(distinct: true) # 検索結果を取得
+    # タグでの絞り込み
+    if params[:tag_id].present?
+      tag = Tag.find(params[:tag_id])
+      @posts = tag.posts.distinct
+    else
+      @posts = @q.result(distinct: true)
+    end
     respond_to do |format|
       format.js
       format.json { render json: @posts.pluck(:title) }
