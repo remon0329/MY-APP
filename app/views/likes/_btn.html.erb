@@ -1,10 +1,10 @@
 <% if post.liked_by?(current_user) %>
-  <%= button_to post_like_path(post), method: :delete do %>
+  <%= button_to post_like_path(post), method: :delete, data: { redirect: root_path } do %>
     <i class="fas fa-heart" aria-hidden="true" style="color: red;"></i>
     <%= post.likes.count %> いいね
   <% end %>
 <% else %>
-  <%= button_to post_like_path(post), method: :post do %>
+  <%= button_to post_like_path(post), method: :post, data: { redirect: root_path } do %>
     <i class="fas fa-heart" aria-hidden="true"></i>
     <%= post.likes.count %> いいね
   <% end %>
