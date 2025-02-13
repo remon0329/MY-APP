@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get "sureddos/new"
   get "posts/index"
+  get "images/ogp.png", to: "images#ogp", as: "images_ogp"
   devise_for :users, controllers: {
     registrations: "users/registrations"
   }

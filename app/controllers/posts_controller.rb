@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, only: [ :create, :edit, :update, :destroy, :new, :show ]
   before_action :set_post, only: [ :edit, :update, :destroy ]
+  helper_method :prepare_meta_tags
 
   def index
     @q = Post.ransack(params[:q])
@@ -66,6 +67,7 @@ class PostsController < ApplicationController
   def detail
     @post = Post.find(params[:id])
     @comments = @post.comments
+    prepare_meta_tags(@post)
   end
 
   def show
@@ -140,5 +142,22 @@ class PostsController < ApplicationController
         posts = posts.where("title ILIKE ?", "%#{query}%")
     end
     posts
+  end
+
+  def prepare_meta_tags(post)
+    image_url = "#{request.base_url}/images/ogp.png?text=#{CGI.escape(post.title)}"
+    set_meta_tags og: {
+                    site_name: "GAMES_ MEMORY",
+                    title: post.title,
+                    description: post.description,
+                    type: "website",
+                    url: request.original_url,
+                    image: image_url,
+                    locale: "ja-JP"
+                  },
+                  twitter: {
+                    card: "summary_large_image",
+                    image: image_url
+                  }
   end
 end

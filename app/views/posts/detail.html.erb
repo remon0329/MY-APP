@@ -31,6 +31,13 @@
       <%= link_to tag.name, posts_path(tag_id: tag.id), class: 'badge badge-info' %> 
     <% end.reject(&:blank?).join(', ') %>
   </p>
+  <div class="text-gray-600">
+    <% prepare_meta_tags @post %>
+    <% twitter_share_url = "https://twitter.com/share?url=#{CGI.escape(post_url(@post))}&text=#{CGI.escape(@post.title)}" %>
+    <%= link_to twitter_share_url, target: '_blank', data: { toggle: "tooltip", placement: "bottom" }, title: "Xでシェア" do %>
+      <i class="fa-brands fa-square-x-twitter fa-2xl"></i>
+    <% end %>
+</div>
 </div>
 
 <% if user_signed_in? %>
