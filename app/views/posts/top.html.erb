@@ -39,8 +39,8 @@
         <div class="flex items-center gap-4">
           <%= render "likes/btn", post: post %>
 
-          <% hashtags = "GAMES_ MEMORY,思い出の共有" %>
-          <% twitter_share_url = "https://twitter.com/share?url=#{CGI.escape(detail_post_url(post))}&text=#{CGI.escape(post.title)}&hashtags=#{CGI.escape(hashtags)}" %>
+          <% hashtags = "GAMES_MEMORY\n思い出の共有" %> <!-- 改行を追加 -->
+          <% twitter_share_url = "https://twitter.com/share?hashtags=#{CGI.escape(hashtags)}&url=#{CGI.escape(detail_post_url(post))}&text=#{CGI.escape(post.title)}" %> <!-- ハッシュタグを最初に移動 -->
           <%= link_to twitter_share_url, target: '_blank', class: "text-gray-600 hover:text-gray-800", data: { toggle: "tooltip", placement: "bottom" }, title: "Xでシェア" do %>
             <img src="<%= asset_path('985bad170e1e402f666512e7ab9de011.png') %>" alt="Twitter Share" class="w-6 h-6" /> <!-- 30pxに設定 -->
           <% end %>
