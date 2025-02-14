@@ -20,7 +20,15 @@
             <%= link_to tag.name, sureddos_path(tag_id: tag.id), class: 'badge badge-info' %>
           <% end.reject(&:blank?).join(', ') %>
         </p>
-        <%= render "likes/sureddo_btn", sureddo: sureddo %>
+        <div class="flex items-center gap-4">
+          <%= render "likes/sureddo_btn", sureddo: sureddo %>
+
+          <% hashtags = "GAMES_ MEMORY,スレッドで盛り上がろう！,思い出の共有" %>
+          <% twitter_share_url = "https://twitter.com/share?url=#{CGI.escape(sureddo_url(sureddo))}&text=#{CGI.escape(sureddo.title)}&hashtags=#{CGI.escape(hashtags)}" %>
+          <%= link_to twitter_share_url, target: '_blank', class: "text-gray-600 hover:text-gray-800", data: { toggle: "tooltip", placement: "bottom" }, title: "Xでシェア" do %>
+            <img src="<%= asset_path('985bad170e1e402f666512e7ab9de011.png') %>" alt="Twitter Share" class="w-6 h-6" /> <!-- 30pxに設定 -->
+          <% end %>
+        </div>
       </div>
     <% end %>
   </div>

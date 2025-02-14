@@ -1,6 +1,7 @@
 class SureddosController < ApplicationController
   before_action :authenticate_user!, only: [ :create, :edit, :update, :destroy, :new ]
   before_action :set_sureddo, only: [ :show, :edit, :update, :destroy ]
+  helper_method :prepare_meta_tags
 
   def index
     @q = Sureddo.ransack(params[:q]) # ransackによる検索
@@ -41,6 +42,7 @@ class SureddosController < ApplicationController
   def show
     @sureddo = Sureddo.find(params[:id])  # 特定のsureddoを取得
     @comments = @sureddo.comments  # このsureddoに関連するコメントを取得
+    prepare_meta_tags(@sureddo)
   end
 
   def create
@@ -101,5 +103,22 @@ class SureddosController < ApplicationController
       sureddos = sureddos.where("title ILIKE ?", "%#{query}%")
     end
     sureddos
+  end
+
+  def prepare_meta_tags(sureddo)
+    image_url = "#{request.base_url}/images/ogp.png?text=#{CGI.escape(sureddo.title)}"
+    set_meta_tags og: {
+                    site_name: "GAMES_ MEMORY",
+                    title: sureddo.title,
+                    description: sureddo.description,
+                    type: "website",
+                    url: request.original_url,
+                    image: image_url,
+                    locale: "ja-JP"
+                  },
+                  twitter: {
+                    card: "summary_large_image",
+                    image: image_url
+                  }
   end
 end
