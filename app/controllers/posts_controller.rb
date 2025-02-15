@@ -147,7 +147,7 @@ class PostsController < ApplicationController
   def prepare_meta_tags(post)
     image_url = "#{request.base_url}/images/ogp.png?text=#{CGI.escape(post.title)}"
     set_meta_tags og: {
-                    site_name: "GAMES_ MEMORY",
+                    site_name: "GAMES_MEMORY",
                     title: post.title,
                     description: post.description,
                     type: "website",
