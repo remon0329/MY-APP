@@ -106,10 +106,10 @@ class SureddosController < ApplicationController
   end
 
   def prepare_meta_tags(sureddo)
-    image_url = "#{request.base_url}/images/ogp.png?text=#{CGI.escape(@sureddo.title)}"
+    image_url = "#{request.base_url}/images/ogp.png?text=#{CGI.escape(sureddo.title)}"
     set_meta_tags og: {
                     site_name: "GAMES_MEMORY",
-                    title: @sureddo.title,
+                    title: sureddo.title,
                     description: sureddo.description,
                     type: "website",
                     url: request.original_url,
