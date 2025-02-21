@@ -15,7 +15,7 @@
           </div>
         <% else %>
           <!-- ログインボタン -->
-          <%= link_to 'ログイン', new_user_session_path, class: 'btn btn-primary' %>
+          <%= button_to "Googleでログイン", user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false }, class: "btn btn-primary" %>
         <% end %>
       </div>
       <% if user_signed_in? %>

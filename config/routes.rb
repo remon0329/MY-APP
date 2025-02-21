@@ -2,10 +2,8 @@ Rails.application.routes.draw do
   get "sureddos/new"
   get "posts/index"
   get "images/ogp.png", to: "images#ogp", as: "images_ogp"
-  get "/manifest.json", to: "your_controller#your_action"
-  devise_for :users, controllers: {
-    registrations: "users/registrations"
-  }
+  get "/manifest.json", to: "application#manifest"
+  devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
   devise_scope :user do
     get "/users/sign_out" => "devise/sessions#destroy"
   end
