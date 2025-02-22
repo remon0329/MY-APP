@@ -1,8 +1,7 @@
-Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :google_oauth2, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_CLIENT_SECRET'], {
-    scope: 'email,profile'
-  }
-end
-
-OmniAuth.config.allowed_request_methods = [:post]
+OmniAuth.config.allowed_request_methods = [ :post ]
 OmniAuth.config.silence_get_warning = true
+
+OmniAuth.config.before_request_phase do |env|
+  request = Rack::Request.new(env)
+  env["omniauth.origin"] = request.params["origin"] || request.referer if request.referer && request.referer.start_with?("http")
+end
