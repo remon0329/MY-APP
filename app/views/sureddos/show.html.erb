@@ -38,7 +38,7 @@
     </div>
   <% end %>
 <% else %>
-  <%= link_to 'ログインをするとコメントできる！！', new_user_session_path, class: 'btn' %>
+  <%= button_to "Googleでログインするとコメントできるよ!!", user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false }, class: "btn" %>
 <% end %>
 
 <h5>コメント一覧</h5>

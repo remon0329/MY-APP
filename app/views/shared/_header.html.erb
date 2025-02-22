@@ -15,7 +15,10 @@
           </div>
         <% else %>
           <!-- ログインボタン -->
-          <%= button_to "Googleでログイン", user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false }, class: "btn btn-primary" %>
+          <%= button_to safe_join([
+            image_tag("https://img.icons8.com/external-those-icons-flat-those-icons/24/external-Google-logos-and-brands-those-icons-flat-those-icons.png", width: 20, height: 20, alt: "Googleログイン", class: "inline-block"),
+            content_tag(:span, "ログイン", class: "text-xs text-brack font-light")
+          ]), user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false }, class: "btn btn-sm gap-1 font-semibold rounded-full bg-white hover:border-orange-500 hover:bg-white drop-shadow-md hover:drop-shadow-none" %>
         <% end %>
       </div>
       <% if user_signed_in? %>
