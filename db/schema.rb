@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_22_122500) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_24_171544) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -75,6 +75,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_22_122500) do
     t.string "video_url"
     t.string "video_file"
     t.integer "user_id"
+    t.string "predefined_tags"
   end
 
   create_table "sureddos", force: :cascade do |t|
