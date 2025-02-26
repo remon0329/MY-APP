@@ -6,9 +6,8 @@ class PostsController < ApplicationController
   def index
     @q = Post.ransack(params[:q])
     # タグでの絞り込み
-    if params[:tag_id].present?
-      tag = Tag.find(params[:tag_id]) # タグIDでタグを検索
-      @posts = tag.posts.distinct # タグに関連する投稿を取得
+    if params[:tag_list].present?
+      @posts = Post.joins(:tags).where(tags: { name: params[:tag_list] }).distinct
     else
       # 通常の検索
       if params[:q].present?
@@ -27,9 +26,8 @@ class PostsController < ApplicationController
   def top
     @q = Post.ransack(params[:q])
     # タグでの絞り込み
-    if params[:tag_id].present?
-      tag = Tag.find(params[:tag_id]) # タグIDでタグを検索
-      @posts = tag.posts.distinct # タグに関連する投稿を取得
+    if params[:tag_list].present?
+      @posts = Post.joins(:tags).where(tags: { name: params[:tag_list] }).distinct
     else
       # 通常の検索
       if params[:q].present?
