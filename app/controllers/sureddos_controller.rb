@@ -7,7 +7,7 @@ class SureddosController < ApplicationController
     @q = Sureddo.ransack(params[:q]) # ransackによる検索
     # ジャンルタグによる絞り込み
     if params[:tag_list].present?
-      @sureddos = Sureddo.joins(:tags).where(tags: { name: params[:tag_list].split(',') }).distinct
+      @sureddos = Sureddo.joins(:tags).where(tags: { name: params[:tag_list].split(",") }).distinct
     elsif params[:tag_id].present?
       tag = Tag.find(params[:tag_id]) # タグIDでタグを取得
       @sureddos = tag.sureddos.distinct # タグに関連するSureddoを取得
@@ -54,7 +54,7 @@ class SureddosController < ApplicationController
     # ジャンル（predefined_tags）が選択されていた場合、それをタグリストに追加
     if params[:sureddo][:predefined_tags].present?
       predefined_tag = params[:sureddo][:predefined_tags]
-      @sureddo.tag_list = [predefined_tag, params[:sureddo][:tag_list]].join(', ')
+      @sureddo.tag_list = [ predefined_tag, params[:sureddo][:tag_list] ].join(",")
     else
       @sureddo.tag_list = params[:sureddo][:tag_list]
     end
