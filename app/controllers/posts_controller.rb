@@ -6,9 +6,8 @@ class PostsController < ApplicationController
   def index
     @q = Post.ransack(params[:q])
     # タグでの絞り込み
-    if params[:tag_id].present?
-      tag = Tag.find(params[:tag_id]) # タグIDでタグを検索
-      @posts = tag.posts.distinct # タグに関連する投稿を取得
+    if params[:tag_list].present?
+      @posts = Post.joins(:tags).where(tags: { name: params[:tag_list] }).distinct
     else
       # 通常の検索
       if params[:q].present?
@@ -27,9 +26,8 @@ class PostsController < ApplicationController
   def top
     @q = Post.ransack(params[:q])
     # タグでの絞り込み
-    if params[:tag_id].present?
-      tag = Tag.find(params[:tag_id]) # タグIDでタグを検索
-      @posts = tag.posts.distinct # タグに関連する投稿を取得
+    if params[:tag_list].present?
+      @posts = Post.joins(:tags).where(tags: { name: params[:tag_list] }).distinct
     else
       # 通常の検索
       if params[:q].present?
@@ -88,9 +86,18 @@ class PostsController < ApplicationController
     @post = current_user.posts.build(post_params)
     @post.user_id = current_user.id
     @post.user_name = current_user.name
-    @post.tag_list = params[:post][:tag_list]
+
+    # predefined_tagsが送信されていれば、それをtag_listとして設定
+    if params[:post][:predefined_tags].present?
+      predefined_tags = params[:post][:predefined_tags]
+      # 既存のタグリストにpredefined_tagsを追加
+      @post.tag_list = (predefined_tags.split(",") + params[:post][:tag_list].split(",")).uniq
+    else
+      @post.tag_list = params[:post][:tag_list].split(",")
+    end
+
     if @post.save
-      redirect_to root_path, notice: "投稿が作成されました"
+      redirect_to root_path, notice: "投稿が完了しました"
     else
       render :new
     end
@@ -118,7 +125,7 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :description, :video_url, :video_file, :tag_list)
+    params.require(:post).permit(:title, :description, :video_url, :tag_list, :predefined_tags)
   end
 
   def set_post

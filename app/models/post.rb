@@ -12,7 +12,13 @@ class Post < ApplicationRecord
 
 
   def tag_list=(tags)
-    self.tags = tags.split(",").map { |tag| Tag.find_or_create_by(name: tag.strip) }
+    # tagsが配列なら、そのまま使う
+    if tags.is_a?(Array)
+      self.tags = tags.map { |tag| Tag.find_or_create_by(name: tag.strip) }
+    else
+      # 文字列の場合はカンマで分割して処理
+      self.tags = tags.split(",").map { |tag| Tag.find_or_create_by(name: tag.strip) }
+    end
   end
 
   def liked_by?(user)

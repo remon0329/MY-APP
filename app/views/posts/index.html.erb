@@ -4,48 +4,72 @@
 
 <%= render 'posts/search_form' %>
 
-<div class="main-content">
-  <h3>動画投稿一覧！</h3>
-  <% if params[:query].present? %>
-    <h4>検索結果: "<%= params[:query] %>"</h4>
-  <% end %>
-  <div class="posts">
-    <% @posts.each do |post| %>
-      <div class="post">
-        <% if post.video_file.attached? %>
-          <video width="320" height="240" controls>
-            <source src="<%= url_for(post.video_file) %>" type="video/mp4">
-            お使いのブラウザでは動画再生に対応していません。
-          </video>
-        <% end %>
+<div class="flex mt-8">
+  <!-- 左側のジャンルリスト -->
+  <div class="w-1/4 p-4">
+    <h4 class="text-xl font-semibold mb-6">ジャンル</h4>
+    <ul class="space-y-4">
+      <li><%= link_to 'PlayStation 3', posts_path(tag_list: 'PlayStation 3'), class: 'text-blue-500 hover:underline' %></li>
+      <li><%= link_to 'PlayStation 4', posts_path(tag_list: 'PlayStation 4'), class: 'text-blue-500 hover:underline' %></li>
+      <li><%= link_to 'PlayStation 5', posts_path(tag_list: 'PlayStation 5'), class: 'text-blue-500 hover:underline' %></li>
+      <li><%= link_to 'Switch', posts_path(tag_list: 'Switch'), class: 'text-blue-500 hover:underline' %></li>
+      <li><%= link_to 'Wii', posts_path(tag_list: 'Wii'), class: 'text-blue-500 hover:underline' %></li>
+      <li><%= link_to '3DS', posts_path(tag_list: '3DS'), class: 'text-blue-500 hover:underline' %></li>
+      <li><%= link_to 'PC', posts_path(tag_list: 'PC'), class: 'text-blue-500 hover:underline' %></li>
+      <li><%= link_to 'その他', posts_path(tag_list: 'その他'), class: 'text-blue-500 hover:underline' %></li>
+    </ul>
+  </div>
 
-        <% if post.video_url.present? %>
-          <% 
-            video_id_match = post.video_url.match(/(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+|(?:v|e(?:mbed)?)\/?([^\/\n\s]*))|youtu\.be\/([^\/\n\s]+))/)
-            video_id = video_id_match ? (video_id_match[1] || video_id_match[2] || video_id_match[3]) : nil
-          %>
-          <% if video_id %>
-            <iframe width="320" height="240" src="https://www.youtube.com/embed/<%= video_id %>" frameborder="0" allowfullscreen></iframe>
-          <% end %>
-        <% end %>
-        <p>投稿者: <%= post.user_name %></p>
-        <h4>タイトル: <%= link_to post.title, detail_post_path(post),  class: 'btn' %></h4>
-        <p>説明欄: <%= post.description %></p>
-        <p>タグ: 
-          <%= post.tags.map do |tag| %>
-            <%= link_to tag.name, posts_path(tag_id: tag.id), class: 'badge badge-info' %> 
-          <% end.reject(&:blank?).join(', ') %>
-        </p>
-        <div class="flex items-center gap-4">
-          <%= render "likes/btn", post: post %>
+  <!-- 右側の動画投稿一覧 -->
+  <div class="w-3/4 p-4">
+    <h3 class="text-2xl font-semibold mb-6">動画投稿一覧！</h3>
 
-          <% hashtags = "#GAMES_MEMORY,#思い出の共有" %> <!-- 改行を追加 -->
-          <% twitter_share_url = "https://twitter.com/share?text=#{CGI.escape(post.title)}%0A#{CGI.escape(hashtags)}%0A&url=#{CGI.escape(detail_post_url(post))}" %>
-          <%= link_to twitter_share_url, target: '_blank', class: "text-gray-600 hover:text-gray-800", data: { toggle: "tooltip", placement: "bottom" }, title: "Xでシェア" do %>
-            <img src="<%= asset_path('985bad170e1e402f666512e7ab9de011.png') %>" alt="Twitter Share" class="w-6 h-6" /> <!-- 30pxに設定 -->
-          <% end %>
-        </div>
-      </div>
+    <% if params[:query].present? %>
+      <h4 class="text-xl font-semibold mb-4">検索結果: "<%= params[:query] %>"</h4>
     <% end %>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <% @posts.each do |post| %>
+        <div class="border border-black p-4 rounded-lg shadow-lg">
+          <% if post.video_file.attached? %>
+            <video class="w-full" controls>
+              <source src="<%= url_for(post.video_file) %>" type="video/mp4">
+              お使いのブラウザでは動画再生に対応していません。
+            </video>
+          <% end %>
+
+          <% if post.video_url.present? %>
+            <% 
+              video_id_match = post.video_url.match(/(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+|(?:v|e(?:mbed)?)\/?([^\/\n\s]*))|youtu\.be\/([^\/\n\s]+))/)
+              video_id = video_id_match ? (video_id_match[1] || video_id_match[2] || video_id_match[3]) : nil
+            %>
+            <% if video_id %>
+              <iframe class="w-full" height="240" src="https://www.youtube.com/embed/<%= video_id %>" frameborder="0" allowfullscreen></iframe>
+            <% end %>
+          <% end %>
+
+          <p class="text-sm text-gray-500">投稿者: <%= post.user_name %></p>
+          <h4 class="text-lg font-semibold mt-2">
+            タイトル: <%= link_to post.title, detail_post_path(post), class: 'text-blue-500 hover:underline' %>
+          </h4>
+          <p class="mt-2 text-sm text-gray-600">説明欄: <%= post.description %></p>
+          <p class="mt-2 text-sm">タグ: 
+            <%= post.tags.map do |tag| %>
+              <%= link_to tag.name, posts_path(tag_list: tag.name), class: 'text-blue-500 hover:underline' %>
+            <% end.reject(&:blank?).join(', ') %>
+          </p>
+
+          <div class="flex items-center gap-4 mt-4">
+            <%= render "likes/btn", post: post %>
+
+            <% hashtags = "#GAMES_MEMORY,#思い出の共有" %>
+            <% twitter_share_url = "https://twitter.com/share?text=#{CGI.escape(post.title)}%0A#{CGI.escape(hashtags)}%0A&url=#{CGI.escape(detail_post_url(post))}" %>
+            <%= link_to twitter_share_url, target: '_blank', class: "text-gray-600 hover:text-gray-800", data: { toggle: "tooltip", placement: "bottom" }, title: "Xでシェア" do %>
+              <img src="<%= asset_path('985bad170e1e402f666512e7ab9de011.png') %>" alt="Twitter Share" class="w-6 h-6" />
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>

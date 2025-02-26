@@ -18,9 +18,16 @@
     </div>
 
     <div>
+      <%= form.select :predefined_tags, options_for_select([
+        'PlayStation 3', 'PlayStation 4', 'PlayStation 5', 'Switch', 'Wii', '3DS', 'PC', 'その他'
+      ]), {}, class: 'form-control' %>
+      <small>ジャンルを選択してください。</small>
+    </div>
+
+    <div>
       <%= form.label :tag_list, "タグ" %>
       <%= form.text_field :tag_list, value: @sureddo.tags.map(&:name).join(", "), class: 'form-control' %>
-      <small>タグは,で区切って入力してください。（例)Switch,3DS,PlayStation4,PlayStation5</small>
+      <small>タグはカンマで区切って入力してください。（例)Switch,3DS,PlayStation4,PlayStation5</small>
     </div>
 
     <div class="form-group">
