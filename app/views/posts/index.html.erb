@@ -55,7 +55,7 @@
           <p class="mt-2 text-sm text-gray-600">説明欄: <%= post.description %></p>
           <p class="mt-2 text-sm">タグ: 
             <%= post.tags.map do |tag| %>
-              <%= link_to tag.name, posts_path(tag_id: tag.id), class: 'text-blue-500 hover:underline' %> 
+              <%= link_to tag.name, posts_path(tag_list: tag.name), class: 'text-blue-500 hover:underline' %>
             <% end.reject(&:blank?).join(', ') %>
           </p>
 

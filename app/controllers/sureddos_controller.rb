@@ -5,8 +5,10 @@ class SureddosController < ApplicationController
 
   def index
     @q = Sureddo.ransack(params[:q]) # ransackによる検索
-    # タグで絞り込む処理
-    if params[:tag_id].present?
+    # ジャンルタグによる絞り込み
+    if params[:tag_list].present?
+      @sureddos = Sureddo.joins(:tags).where(tags: { name: params[:tag_list].split(',') }).distinct
+    elsif params[:tag_id].present?
       tag = Tag.find(params[:tag_id]) # タグIDでタグを取得
       @sureddos = tag.sureddos.distinct # タグに関連するSureddoを取得
     else
@@ -49,7 +51,13 @@ class SureddosController < ApplicationController
     @sureddo = current_user.sureddos.build(sureddo_params)
     @sureddo.user_id = current_user.id
     @sureddo.user_name = current_user.name
-    @sureddo.tag_list = params[:sureddo][:tag_list]
+    # ジャンル（predefined_tags）が選択されていた場合、それをタグリストに追加
+    if params[:sureddo][:predefined_tags].present?
+      predefined_tag = params[:sureddo][:predefined_tags]
+      @sureddo.tag_list = [predefined_tag, params[:sureddo][:tag_list]].join(', ')
+    else
+      @sureddo.tag_list = params[:sureddo][:tag_list]
+    end
     if @sureddo.save
       redirect_to sureddos_path, notice: "投稿が作成されました"
     else
