@@ -1,12 +1,12 @@
 <header>
   <nav class="navbar">
-    <div class="container">
+    <div class="container flex justify-center items-center space-x-2.5 mx-2.5">
       <!-- 左側: タイトル -->
       <div class="navbar-brand">
-        <h1>GAMES_ MEMORY</h1>
+        <h1 class="font-bold">GAMES_MEMORY</h1>
       </div>
 
-      <div class="login">
+      <div class="login flex items-center space-x-2.5">
         <!-- ログイン状態に応じた表示 -->
         <% if user_signed_in? %>
           <!-- ユーザーアイコン -->
@@ -21,11 +21,11 @@
           ]), user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false }, class: "btn btn-sm gap-1 font-semibold rounded-full bg-white hover:border-orange-500 hover:bg-white drop-shadow-md hover:drop-shadow-none" %>
         <% end %>
       </div>
+
       <% if user_signed_in? %>
         <%= link_to '動画投稿', new_post_path, class: 'btn btn-primary' %>
         <%= link_to 'スレッド投稿', new_sureddo_path, class: 'btn btn-primary' %>
       <% end %>
-
     </div>
   </nav>
 </header>

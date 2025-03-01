@@ -3,7 +3,7 @@
     <div class="relative flex rounded-md">
       <div data-controller="autocomplete" data-autocomplete-url-value="/sureddos/search" role="combobox">
         <%= f.search_field :title_cont, data: { autocomplete_target: 'input' },
-            class: "w-[300px] py-3 px-4 pl-11 block border-gray-200 shadow-sm rounded-md text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400", 
+            class: "w-[300px] py-3 px-4 pl-11 block border border-black rounded-md shadow-sm text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400", 
             placeholder: "タイトルで検索してみよう" %>
         <%= f.hidden_field :title, data: { autocomplete_target: 'hidden' } %>
         <ul class="list-group bg-white absolute w-full md:text-sm max-w-max" data-autocomplete-target="results"></ul>
