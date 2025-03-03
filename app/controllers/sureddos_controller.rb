@@ -70,7 +70,13 @@ class SureddosController < ApplicationController
   end
 
   def update
-    if @sureddo.update(sureddo_params)
+    if params[:sureddo][:predefined_tags].present?
+      predefined_tag = params[:sureddo][:predefined_tags]
+      @sureddo.tag_list = [ predefined_tag, params[:sureddo][:tag_list] ].join(",")
+    else
+      @sureddo.tag_list = params[:sureddo][:tag_list]
+    end
+    if @sureddo.save
       redirect_to sureddos_path, notice: "投稿が更新されました"
     else
       render :edit

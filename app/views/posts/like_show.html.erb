@@ -1,54 +1,82 @@
-<h1><%= current_user.name %>のいいねした投稿とスレッド</h1>
+<h1 class="font-bold mx-2.5"><%= current_user.name %>のいいねした投稿とスレッド</h1>
 
 <div class="button-group">
-  <%= link_to '動画投稿', new_post_path, class: 'btn btn-primary' %>
-  <%= link_to 'スレッド投稿', new_sureddo_path, class: 'btn btn-primary' %>
-  <%= link_to '掲示板一覧', root_path, class: 'btn btn-secondary' %>
-  <%= link_to 'ログアウト', destroy_user_session_path, data: { method: :delete }, class: 'btn btn-danger' %>
+  <%= link_to '動画投稿', new_post_path, class: 'btn btn-primary my-5 mx-2.5' %>
+  <%= link_to 'スレッド投稿', new_sureddo_path, class: 'btn btn-primary my-5 mx-2.5' %>
+  <%= link_to '掲示板一覧', root_path, class: 'btn btn-secondary my-5 mx-2.5' %>
+  <%= link_to 'ログアウト', destroy_user_session_path, data: { method: :delete }, class: 'btn btn-danger my-5 mx-2.5' %>
 </div>
 
-<%= link_to "投稿した記録はこちら！", post_path(current_user), class: "btn btn-primary" %>
+<%= link_to "投稿した記録はこちら！", post_path(current_user), class: "btn btn-info my-5 mx-2.5" %>
 
-<h2>いいねした投稿</h2>
-<div id="liked-posts">
+<h2 class="text-2xl font-semibold mb-6 mx-2.5">いいねした投稿</h2>
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
   <% @posts.each do |post| %>
-    <% if post.present? %>
-      <div class="post">
-        <img src="<%= post.thumbnail %>">
+    <div class="border border-black p-4 rounded-lg shadow-lg">
+      <% if post.video_file.attached? %>
+        <video class="w-full" controls>
+          <source src="<%= url_for(post.video_file) %>" type="video/mp4">
+          お使いのブラウザでは動画再生に対応していません。
+        </video>
+      <% end %>
 
-        <% if post.video_file.attached? %>
-          <video width="320" height="240" controls>
-            <source src="<%= url_for(post.video_file) %>" type="video/mp4">
-            お使いのブラウザでは動画再生に対応していません。
-          </video>
+      <% if post.video_url.present? %>
+        <% 
+          video_id_match = post.video_url.match(/(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+|(?:v|e(?:mbed)?)\/?([^\/\n\s]*))|youtu\.be\/([^\/\n\s]+))/)
+          video_id = video_id_match ? (video_id_match[1] || video_id_match[2] || video_id_match[3]) : nil
+        %>
+        <% if video_id %>
+          <iframe class="w-full" height="240" src="https://www.youtube.com/embed/<%= video_id %>" frameborder="0" allowfullscreen></iframe>
         <% end %>
+      <% end %>
 
-        <% if post.video_url.present? %>
-          <% video_id = post.video_url.match(/(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+|(?:v|e(?:mbed)?)\/?([^\/\n\s]*))|youtu\.be\/([^\/\n\s]+))/) %>
-          <% video_id = video_id[1] || video_id[2] || video_id[3] %>
-          <% if video_id %>
-            <iframe width="320" height="240" src="https://www.youtube.com/embed/<%= video_id %>" frameborder="0" allowfullscreen></iframe>
-          <% end %>
+      <p class="text-sm text-gray-500">投稿者: <%= post.user_name %></p>
+      <h4 class="text-lg font-semibold mt-2">
+        タイトル: <%= link_to post.title, detail_post_path(post), class: 'text-blue-500 hover:underline' %>
+      </h4>
+      <p class="mt-2 text-sm text-gray-600">説明欄: <%= post.description %></p>
+      <p class="mt-2 text-sm">タグ: 
+        <%= post.tags.map do |tag| %>
+          <%= link_to tag.name, posts_path(tag_list: tag.name), class: 'text-blue-500 hover:underline' %> 
+        <% end.reject(&:blank?).join(', ') %>
+      </p>
+
+      <div class="flex items-center gap-4 mt-4">
+        <%= render "likes/btn", post: post %>
+        <% hashtags = "#GAMES_MEMORY,#思い出の共有" %>
+        <% twitter_share_url = "https://twitter.com/share?text=#{CGI.escape(post.title)}%0A#{CGI.escape(hashtags)}%0A&url=#{CGI.escape(detail_post_url(post))}" %>
+        <%= link_to twitter_share_url, target: '_blank', class: "text-gray-600 hover:text-gray-800", data: { toggle: "tooltip", placement: "bottom" }, title: "Xでシェア" do %>
+          <img src="<%= asset_path('985bad170e1e402f666512e7ab9de011.png') %>" alt="Twitter Share" class="w-6 h-6" />
         <% end %>
-
-        <h4>タイトル: <%= link_to post.title, detail_post_path(post), class: 'btn' %></h4>
-        <p><%= post.description %></p>
       </div>
-    <% end %>
+    </div>
   <% end %>
 </div>
 
-<div id="liked-sureddos">
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
   <% @sureddos.each do |sureddo| %>
-    <% if sureddo.present? %>
-      <div class="sureddo">
-        <% if sureddo.image.attached? %>
-          <img src="<%= url_for(sureddo.image) %>" alt="スレッド画像">
+    <div class="border border-black p-4 rounded-lg shadow-lg">
+      <% if sureddo.image.present? %>
+        <img src="<%= url_for(sureddo.image) %>" alt="画像が読み込めませんでした" class="w-full h-auto rounded-md mb-4">
+      <% end %>
+      <p class="text-sm text-gray-600">投稿者: <%= sureddo.user_name %></p>
+      <h4 class="text-lg font-semibold mt-2">
+        タイトル: <%= link_to sureddo.title, sureddo_path(sureddo), class: 'text-blue-500 hover:underline' %>
+      </h4>
+      <p class="mt-2 text-sm text-gray-600">説明欄: <%= sureddo.description %></p>
+      <p class="mt-2 text-sm text-gray-600">タグ: 
+        <%= sureddo.tags.map do |tag| %>
+          <%= link_to tag.name, sureddos_path(tag_list: tag.name), class: 'text-blue-500 hover:underline' %>
+        <% end.reject(&:blank?).join(', ') %>
+      </p>
+      <div class="flex items-center gap-4 mt-4">
+        <%= render "likes/sureddo_btn", sureddo: sureddo %>
+        <% hashtags = "#GAMES_MEMORY,#スレッドで盛り上がろう,#思い出の共有" %>
+        <% twitter_share_url = "https://twitter.com/share?text=#{CGI.escape(sureddo.title)}%0A#{CGI.escape(hashtags)}%0A&url=#{CGI.escape(sureddo_url(sureddo))}" %>
+        <%= link_to twitter_share_url, target: '_blank', class: "text-gray-600 hover:text-gray-800", data: { toggle: "tooltip", placement: "bottom" }, title: "Xでシェア" do %>
+          <img src="<%= asset_path('985bad170e1e402f666512e7ab9de011.png') %>" alt="Twitter Share" class="w-6 h-6" />
         <% end %>
-
-        <h4>タイトル: <%= link_to sureddo.title, sureddo_path(sureddo), class: 'btn' %></h4>
-        <p><%= sureddo.description %></p>
       </div>
-    <% end %>
+    </div>
   <% end %>
 </div>

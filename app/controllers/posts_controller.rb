@@ -108,8 +108,32 @@ class PostsController < ApplicationController
   end
 
   def update
-    if @post.update(post_params)
-      redirect_to root_path, notice: "投稿が更新されました"
+    # predefined_tagsが送信されていれば、それをtag_listとして設定
+    if params[:post][:predefined_tags].present?
+      predefined_tags = params[:post][:predefined_tags]
+      @post.predefined_tags = predefined_tags # 現在選択されたジャンルを更新
+      # 既存のタグリストにpredefined_tagsを追加
+      @post.tag_list = (predefined_tags.split(",") + params[:post][:tag_list].split(",")).uniq
+    else
+      @post.tag_list = params[:post][:tag_list].split(",")
+    end
+
+    # YouTubeの動画URLと動画ファイルが両方送信されていないかチェック
+    if params[:post][:video_url].present? && params[:post][:video_file].present?
+      @post.errors.add(:base, "YouTubeの動画URLと動画ファイルは同時に更新できません")
+      render :edit and return
+    end
+
+    # If a new video URL is provided, update the video_url field
+    if params[:post][:video_url].present?
+      @post.video_url = params[:post][:video_url]
+      @post.video_file.purge if @post.video_file.attached? # Remove any attached video file
+    elsif params[:post][:video_file].present?
+      @post.video_file.attach(params[:post][:video_file])
+      @post.video_url = nil # Clear any existing video URL
+    end
+    if @post.save
+      redirect_to post_path(current_user), notice: "投稿が更新されました"
     else
       render :edit
     end
@@ -119,13 +143,13 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
     @post.comments.destroy_all
     @post.destroy
-    redirect_to root_path, notice: "投稿が削除されました"
+    redirect_to post_path(current_user), notice: "投稿が削除されました"
   end
 
   private
 
   def post_params
-    params.require(:post).permit(:title, :description, :video_url, :tag_list, :predefined_tags)
+    params.require(:post).permit(:title, :description, :video_url, :video_file, :tag_list, :predefined_tags)
   end
 
   def set_post

@@ -4,7 +4,6 @@
   <% if @post.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
-
       <ul>
         <% @post.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -28,13 +27,16 @@
 
   <div class="pl-2 py-4">
     <%= form.label :video_url, "YouTubeの動画URL" %>
-    <%= form.text_field :video_url, class: 'form-control border border-black p-2' %>
+    <%= form.text_field :video_url, class: 'form-control border border-black p-2', value: @post.video_url %>
     <small>例: https://www.youtube.com/watch?v=XXXXXX</small>
   </div>
 
   <div class="pl-2 py-4">
     <%= form.label :video_file, "動画ファイルをアップロード" %>
     <%= form.file_field :video_file %>
+    <% if @post.video_file.attached? %>
+      <p>現在の動画ファイル: <%= @post.video_file.filename %></p>
+    <% end %>
   </div>
 
   <div class="pl-2 py-4">
