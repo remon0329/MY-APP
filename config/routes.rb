@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get "sureddos/new"
   get "posts/index"
+  get "privacy-policy", to: "pages#privacy_policy"
   get "images/ogp.png", to: "images#ogp", as: "images_ogp"
   get "/manifest.json", to: "application#manifest"
   devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
