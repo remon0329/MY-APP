@@ -6,6 +6,7 @@ class Post < ApplicationRecord
   validate :video_url_or_video_file
   has_many :taggings, dependent: :destroy
   has_many :tags, through: :taggings
+  has_many :notifications, dependent: :destroy
   def self.ransackable_attributes(auth_object = nil)
     [ "body", "created_at", "description", "id", "id_value", "thumbnail", "title", "updated_at", "user_id", "user_name", "video_file", "video_url" ]
   end
@@ -24,6 +25,53 @@ class Post < ApplicationRecord
   def liked_by?(user)
     return false if user.nil?
     likes.exists?(user_id: user.id)
+  end
+
+  def create_notification_like!(current_user)
+    # すでに「いいね」されているか検索
+    temp = Notification.where(
+      visitor_id: current_user.id,
+      visited_id: user_id,
+      post_id: id,
+      action: 'like'
+    )
+
+    # いいねされていない場合のみ通知レコードを作成
+    return if temp.exists?
+  
+    notification = current_user.active_notifications.new(
+      post_id: id,
+      visited_id: user_id,
+      action: 'like'
+    )
+    # 自分の投稿に対する「いいね」の場合は通知済みにする
+    notification.checked = true if notification.visitor_id == notification.visited_id
+    notification.save if notification.valid?
+  end
+
+  def create_notification_comment!(current_user, comment_id)
+    temp_ids = Comment.select(:user_id).where(post_id: id).where.not(user_id: current_user.id).distinct
+
+    # 他のユーザーに通知
+    temp_ids.each do |temp_id|
+      save_notification_comment!(current_user, comment_id, temp_id['user_id'])
+    end
+
+    # コメントがまだない場合、投稿者に通知を送る
+    save_notification_comment!(current_user, comment_id, user_id) if temp_ids.blank?
+  end
+
+  def save_notification_comment!(current_user, comment_id, visited_id)
+    notification = current_user.active_notifications.new(
+      post_id: id,
+      comment_id: comment_id,
+      visited_id: visited_id,
+      action: 'comment'
+    )
+
+    # 自分の投稿に対するコメントの場合は通知済みにする
+    notification.checked = true if notification.visitor_id == notification.visited_id
+    notification.save if notification.valid?
   end
 
   private

@@ -7,12 +7,14 @@ class LikesController < ApplicationController
       @post = Post.find(params[:post_id])
       like = current_user.likes.new(post: @post)
       like.save
+      @post.create_notification_like!(current_user)
       redirect_to root_path
     elsif params[:sureddo_id]
       # Sureddoに対するいいね処理
       @sureddo = Sureddo.find(params[:sureddo_id])
       like = current_user.likes.new(sureddo: @sureddo)
       like.save
+      @sureddo.create_notification_like!(current_user)
       redirect_to sureddos_path
     end
   end

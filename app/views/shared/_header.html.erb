@@ -39,6 +39,11 @@
         <%= link_to '動画投稿', new_post_path, class: 'btn btn-primary' %>
         <%= link_to 'スレッド投稿', new_sureddo_path, class: 'btn btn-primary' %>
       <% end %>
+      <div class="notification-icon">
+        <%= link_to notifications_path, class: "btn btn-sm text-sm text-gray-700 hover:text-blue-500" do %>
+          <i class="fas fa-bell"></i> <!-- 通知アイコン（FontAwesomeなどを使用） -->
+        <% end %>
+      </div>
     </div>
   </nav>
 </header>

@@ -1,0 +1,55 @@
+<h1 class="font-bold mx-2.5">通知一覧</h1>
+
+<% if @notifications.present? %>
+  <div class="notifications-list">
+    <% @notifications.each do |notification| %>
+      <div class="notification-item">
+        <p>
+          <%= notification.visitor.name %>
+
+          <% case notification.action %>
+          <% when 'like' %>
+            さんがあなたの投稿にいいねしました
+            <% if notification.post.present? %>
+              <%= link_to notification.post.title, detail_post_path(notification.post) %>
+            <% else %>
+              （投稿が削除されました）
+            <% end %>
+
+          <% when 'comment' %>
+            さんがあなたの投稿にコメントしました
+            <% if notification.comment.present? %>
+              <p><%= notification.comment.content %></p>
+            <% end %>
+            <% if notification.post.present? %>
+              <%= link_to notification.post.title, detail_post_path(notification.post) %>
+            <% else %>
+              （投稿が削除されました）
+            <% end %>
+
+          <% when 'sureddo_like' %>
+            さんがあなたのスレッドにいいねしました
+            <% if notification.sureddo.present? %>
+              <%= link_to notification.sureddo.title, show_sureddo_path(notification.sureddo), class: 'text-blue-500 hover:underline' %>
+            <% end %>
+
+          <% when 'sureddo_comment' %>
+            さんがあなたのスレッドにコメントしました
+            <% if notification.comment.present? %>
+              <p><%= notification.comment.content %></p>
+            <% end %>
+            <% if notification.sureddo.present? %>
+              <%= link_to notification.sureddo.title, show_sureddo_path(notification.sureddo), class: 'text-blue-500 hover:underline' %>
+            <% end %>
+          <% end %>
+        </p>
+
+        <p><%= time_ago_in_words(notification.created_at) %>前</p>
+      </div>
+    <% end %>
+  </div>
+
+  <%= paginate @notifications %>
+<% else %>
+  <p>通知はありません</p>
+<% end %>

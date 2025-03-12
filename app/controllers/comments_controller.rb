@@ -7,6 +7,7 @@ class CommentsController < ApplicationController
     @comment.user = current_user
 
     if @comment.save
+      @post.create_notification_comment!(current_user, @comment.id)
       redirect_to detail_post_path(@post), notice: "コメントが投稿されました"
     else
       flash.now[:alert] = @comment.errors.full_messages.join(", ")
@@ -20,6 +21,7 @@ class CommentsController < ApplicationController
     @comment.user = current_user
 
     if @comment.save
+      @sureddo.create_notification_comment!(current_user, @comment.id)
       redirect_to sureddo_path(@sureddo), notice: "コメントが投稿されました"
     else
       flash.now[:alert] = @comment.errors.full_messages.join(", ")
