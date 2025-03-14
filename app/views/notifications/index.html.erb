@@ -30,7 +30,7 @@
           <% when 'sureddo_like' %>
             さんがあなたのスレッドにいいねしました
             <% if notification.sureddo.present? %>
-              <%= link_to notification.sureddo.title, show_sureddo_path(notification.sureddo), class: 'text-blue-500 hover:underline' %>
+              <%= link_to notification.sureddo.title, sureddo_path(notification.sureddo), class: 'text-blue-500 hover:underline' %>
             <% end %>
 
           <% when 'sureddo_comment' %>
@@ -39,7 +39,7 @@
               <p><%= notification.comment.content %></p>
             <% end %>
             <% if notification.sureddo.present? %>
-              <%= link_to notification.sureddo.title, show_sureddo_path(notification.sureddo), class: 'text-blue-500 hover:underline' %>
+              <%= link_to notification.sureddo.title, sureddo_path(notification.sureddo), class: 'text-blue-500 hover:underline' %>
             <% end %>
           <% end %>
         </p>

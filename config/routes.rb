@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   get "posts/sureddo", to: "posts#sureddo", as: "sureddo_posts"
   get "sureddos/search", to: "sureddos#search", as: "sureddo_search"
   resources :notifications, only: :index
-  resources :users, only: [:show]
+  resources :users, only: [ :show ]
   resources :sureddos, only: [ :index, :create, :new, :show, :edit, :update, :destroy ] do
     collection do
       get :search

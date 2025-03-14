@@ -33,16 +33,16 @@ class Post < ApplicationRecord
       visitor_id: current_user.id,
       visited_id: user_id,
       post_id: id,
-      action: 'like'
+      action: "like"
     )
 
     # いいねされていない場合のみ通知レコードを作成
     return if temp.exists?
-  
+
     notification = current_user.active_notifications.new(
       post_id: id,
       visited_id: user_id,
-      action: 'like'
+      action: "like"
     )
     # 自分の投稿に対する「いいね」の場合は通知済みにする
     notification.checked = true if notification.visitor_id == notification.visited_id
@@ -54,7 +54,7 @@ class Post < ApplicationRecord
 
     # 他のユーザーに通知
     temp_ids.each do |temp_id|
-      save_notification_comment!(current_user, comment_id, temp_id['user_id'])
+      save_notification_comment!(current_user, comment_id, temp_id["user_id"])
     end
 
     # コメントがまだない場合、投稿者に通知を送る
@@ -66,7 +66,7 @@ class Post < ApplicationRecord
       post_id: id,
       comment_id: comment_id,
       visited_id: visited_id,
-      action: 'comment'
+      action: "comment"
     )
 
     # 自分の投稿に対するコメントの場合は通知済みにする
