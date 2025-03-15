@@ -1,20 +1,24 @@
-<div class="main-content">
-  <h4>スレッド詳細</h4>
+<div class="main-content flex flex-col items-center px-4 py-6">
+  <h4 class="text-xl font-bold mb-4">スレッド詳細</h4>
 
-  <p>投稿者: <%= @sureddo.user_name %></p>
+  <div class="mb-4 w-full max-w-xl p-4 border border-black rounded-lg">
+    <p class="mb-2"><strong>投稿者:</strong> <%= @sureddo.user_name %></p>
 
-  <% if @sureddo.image.attached? %>
-    <img src="<%= url_for(@sureddo.image) %>" alt="画像が読み込めませんでした">
-  <% end %>
+    <% if @sureddo.image.attached? %>
+      <img src="<%= url_for(@sureddo.image) %>" alt="画像が読み込めませんでした" class="mb-4 w-full rounded-lg">
+    <% end %>
 
-  <h4>タイトル: <%= @sureddo.title %></h4>
-  <p>説明: <%= @sureddo.description %></p>
-  <p>タグ: 
-    <%= @sureddo.tags.map do |tag| %>
-      <%= link_to tag.name, sureddos_path(tag_id: tag.id), class: 'badge badge-info' %>
-    <% end.reject(&:blank?).join(', ') %>
-  </p>
-  <div class="flex items-center gap-4">
+    <h4 class="text-lg font-semibold mb-2">タイトル: <%= @sureddo.title %></h4>
+    <p class="mb-2"><strong>説明:</strong> <%= @sureddo.description %></p>
+
+    <p class="mb-2"><strong>タグ:</strong>
+      <%= @sureddo.tags.map do |tag| %>
+        <%= link_to tag.name, sureddos_path(tag_id: tag.id), class: 'badge badge-info' %>
+      <% end.reject(&:blank?).join(', ') %>
+    </p>
+  </div>
+
+  <div class="flex items-center gap-4 mb-4">
     <%= render "likes/sureddo_btn", sureddo: @sureddo %>
 
     <% hashtags = "#GAMES_MEMORY,#スレッドで盛り上がろう,#思い出の共有" %>
@@ -23,32 +27,32 @@
       <img src="<%= asset_path('985bad170e1e402f666512e7ab9de011.png') %>" alt="Twitter Share" class="w-6 h-6" /> <!-- 30pxに設定 -->
     <% end %>
   </div>
+
+  <% if user_signed_in? %>
+    <h5 class="text-lg font-semibold mb-4">コメントを投稿しよう！</h5>
+    <%= form_with(model: [@sureddo, Comment.new], local: true) do |form| %>
+      <div class="form-group mb-4">
+        <%= form.label :content, 'コメント投稿欄！', class: "block mb-2" %>
+        <%= form.text_area :content, class: 'form-control w-full p-2 border border-black rounded-lg', required: true %>
+      </div>
+
+      <div class="form-group">
+        <%= form.submit '投稿', class: "btn btn-primary w-full py-2" %>
+      </div>
+    <% end %>
+  <% else %>
+    <%= button_to "Googleでログインするとコメントできるよ!!", user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false }, class: "btn w-full py-2" %>
+  <% end %>
+
+  <h5 class="text-lg font-semibold mb-4">コメント一覧</h5>
+  <% if @sureddo.comments.present? %>
+    <% @sureddo.comments.each do |comment| %>
+      <div class="comment p-4 mb-4 border border-black rounded-lg">
+        <p class="font-semibold"><%= comment.user.name %>さんのコメント:</p>
+        <p><%= comment.content %></p>
+      </div>
+    <% end %>
+  <% else %>
+    <p>コメントはまだありません。</p>
+  <% end %>
 </div>
-
-<% if user_signed_in? %>
-<h5>コメントを投稿しよう！</h5>
-  <%= form_with(model: [@sureddo, Comment.new], local: true) do |form| %>
-    <div class="form-group">
-      <%= form.label :content, 'コメント投稿欄！' %>
-      <%= form.text_area :content, class: 'form-control', required: true %>
-    </div>
-    
-    <div class="form-group">
-      <%= form.submit '投稿', class: "btn btn-primary" %>
-    </div>
-  <% end %>
-<% else %>
-  <%= button_to "Googleでログインするとコメントできるよ!!", user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false }, class: "btn" %>
-<% end %>
-
-<h5>コメント一覧</h5>
-<% if @sureddo.comments.present? %>
-  <% @sureddo.comments.each do |comment| %>
-    <div class="comment">
-      <p><%= comment.user.name %>さんのコメント:</p>
-      <p><%= comment.content %></p>
-    </div>
-  <% end %>
-<% else %>
-  <p>コメントはまだありません。</p>
-<% end %>
