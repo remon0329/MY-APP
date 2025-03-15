@@ -11,7 +11,9 @@ Rails.application.routes.draw do
   root "posts#top"
   get "posts/sureddo", to: "posts#sureddo", as: "sureddo_posts"
   get "sureddos/search", to: "sureddos#search", as: "sureddo_search"
-  resources :notifications, only: :index
+  resources :notifications, only: [ :index ] do
+    delete "clear", on: :collection  # clearアクションへのルートを追加
+  end
   resources :users, only: [ :show ]
   resources :sureddos, only: [ :index, :create, :new, :show, :edit, :update, :destroy ] do
     collection do

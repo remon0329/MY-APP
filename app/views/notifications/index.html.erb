@@ -1,6 +1,11 @@
 <h1 class="font-bold mx-2.5 mb-4">通知一覧</h1>
 
 <% if @notifications.present? %>
+  <div class="flex justify-between items-center mb-4">
+    <!-- 通知を全て削除するボタン -->
+    <%= button_to '通知を全て削除する', clear_notifications_path, method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600' %>
+  </div>
+
   <div class="notifications-list">
     <% @notifications.each do |notification| %>
       <div class="notification-item mb-4 px-2.5 py-3 border border-black">
