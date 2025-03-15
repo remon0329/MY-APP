@@ -1,50 +1,50 @@
-<h1 class="font-bold mx-2.5">通知一覧</h1>
+<h1 class="font-bold mx-2.5 mb-4">通知一覧</h1>
 
 <% if @notifications.present? %>
   <div class="notifications-list">
     <% @notifications.each do |notification| %>
-      <div class="notification-item">
-        <p>
+      <div class="notification-item mb-4 px-2.5 py-3 border border-black">
+        <p class="mb-2">
           <%= notification.visitor.name %>
 
           <% case notification.action %>
           <% when 'like' %>
-            さんがあなたの投稿にいいねしました
+            さんがあなたの投稿にいいねしました<br>
             <% if notification.post.present? %>
-              <%= link_to notification.post.title, detail_post_path(notification.post) %>
+              投稿タイトル: <%= link_to notification.post.title, detail_post_path(notification.post), class: 'text-blue-500 hover:underline' %>
             <% else %>
               （投稿が削除されました）
             <% end %>
 
           <% when 'comment' %>
-            さんがあなたの投稿にコメントしました
-            <% if notification.comment.present? %>
-              <p><%= notification.comment.content %></p>
-            <% end %>
+            さんがあなたの投稿にコメントしました<br>
             <% if notification.post.present? %>
-              <%= link_to notification.post.title, detail_post_path(notification.post) %>
+              投稿タイトル: <%= link_to notification.post.title, detail_post_path(notification.post), class: 'text-blue-500 hover:underline' %><br>
             <% else %>
               （投稿が削除されました）
             <% end %>
+            <% if notification.comment.present? %>
+              コメント内容: <p><%= notification.comment.content %></p>
+            <% end %>
 
           <% when 'sureddo_like' %>
-            さんがあなたのスレッドにいいねしました
+            さんがあなたのスレッドにいいねしました<br>
             <% if notification.sureddo.present? %>
-              <%= link_to notification.sureddo.title, sureddo_path(notification.sureddo), class: 'text-blue-500 hover:underline' %>
+              投稿タイトル: <%= link_to notification.sureddo.title, sureddo_path(notification.sureddo), class: 'text-blue-500 hover:underline' %>
             <% end %>
 
           <% when 'sureddo_comment' %>
-            さんがあなたのスレッドにコメントしました
-            <% if notification.comment.present? %>
-              <p><%= notification.comment.content %></p>
-            <% end %>
+            さんがあなたのスレッドにコメントしました<br>
             <% if notification.sureddo.present? %>
-              <%= link_to notification.sureddo.title, sureddo_path(notification.sureddo), class: 'text-blue-500 hover:underline' %>
+              投稿タイトル: <%= link_to notification.sureddo.title, sureddo_path(notification.sureddo), class: 'text-blue-500 hover:underline' %>
+            <% end %>
+            <% if notification.comment.present? %>
+              コメント内容: <%= notification.comment.content %>
             <% end %>
           <% end %>
         </p>
 
-        <p><%= time_ago_in_words(notification.created_at) %>前</p>
+        <p class="text-gray-500 text-sm"><%= time_ago_in_words(notification.created_at) %>前</p>
       </div>
     <% end %>
   </div>
