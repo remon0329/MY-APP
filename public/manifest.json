@@ -7,15 +7,15 @@
   "theme_color": "#000000",
   "description": "思い出深いゲームやハマったゲーム動画を共有するサービス",
   "icons": [
-    {
-      "src": "/GAMES_MEMORY_icon.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "/GAMES_MEMORY_icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml"
-    }
+      {
+        "src": "/GAMES_MEMORY_icon.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "/GAMES_MEMORY_icon.svg",
+        "sizes": "any",
+        "type": "image/svg+xml"
+      }
   ]
 }
