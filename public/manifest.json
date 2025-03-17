@@ -1,7 +1,7 @@
 {
   "name": "GAMES_MEMORY",
   "short_name": "GAMES_MEMORY",
-  "start_url": "/posts/top",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
