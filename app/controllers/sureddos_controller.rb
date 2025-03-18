@@ -70,14 +70,16 @@ class SureddosController < ApplicationController
   end
 
   def update
+    sureddo_attributes = sureddo_params
     if params[:sureddo][:predefined_tags].present?
       predefined_tag = params[:sureddo][:predefined_tags]
       @sureddo.tag_list = [ predefined_tag, params[:sureddo][:tag_list] ].join(",")
     else
       @sureddo.tag_list = params[:sureddo][:tag_list]
     end
-    if @sureddo.save
-      redirect_to sureddos_path, notice: "投稿が更新されました"
+
+    if @sureddo.update(sureddo_attributes)
+      redirect_to post_path(current_user), notice: "投稿が更新されました"
     else
       render :edit
     end
@@ -87,7 +89,7 @@ class SureddosController < ApplicationController
     @sureddo = Sureddo.find(params[:id])
     @sureddo.comments.destroy_all
     @sureddo.destroy
-    redirect_to sureddos_path, notice: "投稿が削除されました"
+    redirect_to post_path(current_user), notice: "投稿が削除されました"
   end
 
   private

@@ -108,6 +108,8 @@ class PostsController < ApplicationController
   end
 
   def update
+    # 基本的なパラメータを取得
+    post_attributes = post_params
     # predefined_tagsが送信されていれば、それをtag_listとして設定
     if params[:post][:predefined_tags].present?
       predefined_tags = params[:post][:predefined_tags]
@@ -117,14 +119,11 @@ class PostsController < ApplicationController
     else
       @post.tag_list = params[:post][:tag_list].split(",")
     end
-
     # YouTubeの動画URLと動画ファイルが両方送信されていないかチェック
     if params[:post][:video_url].present? && params[:post][:video_file].present?
       @post.errors.add(:base, "YouTubeの動画URLと動画ファイルは同時に更新できません")
       render :edit and return
     end
-
-    # If a new video URL is provided, update the video_url field
     if params[:post][:video_url].present?
       @post.video_url = params[:post][:video_url]
       @post.video_file.purge if @post.video_file.attached? # Remove any attached video file
@@ -132,7 +131,7 @@ class PostsController < ApplicationController
       @post.video_file.attach(params[:post][:video_file])
       @post.video_url = nil # Clear any existing video URL
     end
-    if @post.save
+    if @post.update(post_attributes)
       redirect_to post_path(current_user), notice: "投稿が更新されました"
     else
       render :edit
