@@ -9,7 +9,6 @@
     <%= link_to 'ログアウト', destroy_user_session_path, data: { method: :delete }, class: 'btn btn-danger my-5 mx-2.5' %>
   </div>
 
-  <!-- スマホ表示用: 投稿メニュー -->
   <div class="sm:hidden relative inline-block text-left">
     <button type="button" class="btn btn-sm text-sm text-gray-700 hover:text-blue-500 inline-flex justify-center items-center mx-2.5" id="dropdownMenuButton" aria-expanded="false">
       投稿メニュー
@@ -18,8 +17,7 @@
       </svg>
     </button>
 
-    <!-- ドロップダウンメニュー -->
-    <div class="dropdown-menu absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden z-10" id="dropdownMenu">
+    <div class="dropdown-menu absolute left-4 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden z-10" id="dropdownMenu">
       <div class="py-1">
         <%= link_to '動画投稿', new_post_path, class: 'block text-gray-700 hover:bg-gray-100 px-4 py-2 text-sm' %>
         <%= link_to 'スレッド投稿', new_sureddo_path, class: 'block text-gray-700 hover:bg-gray-100 px-4 py-2 text-sm' %>
@@ -29,14 +27,6 @@
     <%= link_to 'ログアウト', destroy_user_session_path, data: { method: :delete }, class: 'btn btn-danger my-5 mx-2.5' %>
   </div>
 </div>
-
-<!-- ドロップダウンメニューの表示を制御するJavaScript -->
-<script>
-  document.getElementById('dropdownMenuButton').addEventListener('click', function() {
-    const dropdownMenu = document.getElementById('dropdownMenu');
-    dropdownMenu.classList.toggle('hidden');
-  });
-</script>
 
 <%= link_to 'いいねした投稿はこちらから！', like_show_posts_path, class: 'btn btn-info my-5 mx-2.5' %>
 

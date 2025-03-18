@@ -1,10 +1,33 @@
 <h1 class="font-bold mx-2.5"><%= current_user.name %>のいいねした投稿とスレッド</h1>
 
 <div class="button-group">
-  <%= link_to '動画投稿', new_post_path, class: 'btn btn-primary my-5 mx-2.5' %>
-  <%= link_to 'スレッド投稿', new_sureddo_path, class: 'btn btn-primary my-5 mx-2.5' %>
-  <%= link_to '掲示板一覧', root_path, class: 'btn btn-secondary my-5 mx-2.5' %>
-  <%= link_to 'ログアウト', destroy_user_session_path, data: { method: :delete }, class: 'btn btn-danger my-5 mx-2.5' %>
+  <!-- デスクトップ表示用: 投稿ボタン (横一列に並べる) -->
+  <div class="hidden sm:flex space-x-4">
+    <%= link_to '動画投稿', new_post_path, class: 'btn btn-primary my-5 mx-2.5' %>
+    <%= link_to 'スレッド投稿', new_sureddo_path, class: 'btn btn-primary my-5 mx-2.5' %>
+    <%= link_to '掲示板一覧', root_path, class: 'btn btn-secondary my-5 mx-2.5' %>
+    <%= link_to 'ログアウト', destroy_user_session_path, data: { method: :delete }, class: 'btn btn-danger my-5 mx-2.5' %>
+  </div>
+
+  <!-- スマホ表示用: 投稿メニュー -->
+  <div class="sm:hidden relative inline-block text-left">
+    <button type="button" class="btn btn-sm text-sm text-gray-700 hover:text-blue-500 inline-flex justify-center items-center mx-2.5" id="dropdownMenuButton" aria-expanded="false">
+      投稿メニュー
+      <svg class="ml-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+      </svg>
+    </button>
+
+    <!-- ドロップダウンメニュー -->
+    <div class="dropdown-menu absolute left-4 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden z-10" id="dropdownMenu">
+      <div class="py-1">
+        <%= link_to '動画投稿', new_post_path, class: 'block text-gray-700 hover:bg-gray-100 px-4 py-2 text-sm' %>
+        <%= link_to 'スレッド投稿', new_sureddo_path, class: 'block text-gray-700 hover:bg-gray-100 px-4 py-2 text-sm' %>
+      </div>
+    </div>
+    <%= link_to '掲示板一覧', root_path, class: 'btn btn-secondary my-5 mx-2.5' %>
+    <%= link_to 'ログアウト', destroy_user_session_path, data: { method: :delete }, class: 'btn btn-danger my-5 mx-2.5' %>
+  </div>
 </div>
 
 <%= link_to "投稿した記録はこちら！", post_path(current_user), class: "btn btn-info my-5 mx-2.5" %>
