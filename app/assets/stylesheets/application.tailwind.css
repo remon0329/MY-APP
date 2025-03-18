@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@media (max-width: 640px) {
+  .login {
+    flex-direction: row; /* 横並びに変更 */
+    justify-content: center; /* 中央に揃える */
+    gap: 15px; /* 要素間のスペースを調整 */
+  }
+  .notification-icon {
+    margin-top: 10px; /* 通知アイコンを2行目に配置 */
+  }
+}

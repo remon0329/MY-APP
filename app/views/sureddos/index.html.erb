@@ -1,7 +1,7 @@
 <%= render 'shared/header' %>
 
 <div class="container mx-auto px-4 max-w-2xl">
-  <div class="flex justify-center items-center space-x-10 mx-auto my-8 w-full">
+  <div class="flex flex-col sm:flex-row justify-center items-center space-x-10 mx-auto my-8 w-full">
     <%= link_to '掲示板一覧はこちら！', root_path, class: 'btn btn-secondary' %>
     <%= render 'sureddos/search_form' %>
   </div>
@@ -10,22 +10,28 @@
 <div class="flex mt-8">
   <!-- 左側のジャンルリスト -->
   <div class="w-1/4 p-4">
-    <h4 class="text-xl font-semibold mb-6">ジャンル</h4>
+    <h4 class="text-base font-semibold mb-6">ジャンル</h4>
     <ul class="space-y-4">
-      <li><%= link_to 'PlayStation 3', sureddos_path(tag_list: 'PlayStation 3'), class: 'text-blue-500 hover:underline' %></li>
-      <li><%= link_to 'PlayStation 4', sureddos_path(tag_list: 'PlayStation 4'), class: 'text-blue-500 hover:underline' %></li>
-      <li><%= link_to 'PlayStation 5', sureddos_path(tag_list: 'PlayStation 5'), class: 'text-blue-500 hover:underline' %></li>
+      <li><%= link_to 'PS 3', sureddos_path(tag_list: 'PlayStation 3'), class: 'text-blue-500 hover:underline' %></li>
+      <li><%= link_to 'PS 4', sureddos_path(tag_list: 'PlayStation 4'), class: 'text-blue-500 hover:underline' %></li>
+      <li><%= link_to 'PS 5', sureddos_path(tag_list: 'PlayStation 5'), class: 'text-blue-500 hover:underline' %></li>
       <li><%= link_to 'Switch', sureddos_path(tag_list: 'Switch'), class: 'text-blue-500 hover:underline' %></li>
       <li><%= link_to 'Wii', sureddos_path(tag_list: 'Wii'), class: 'text-blue-500 hover:underline' %></li>
       <li><%= link_to '3DS', sureddos_path(tag_list: '3DS'), class: 'text-blue-500 hover:underline' %></li>
       <li><%= link_to 'PC', sureddos_path(tag_list: 'PC'), class: 'text-blue-500 hover:underline' %></li>
       <li><%= link_to 'その他', sureddos_path(tag_list: 'その他'), class: 'text-blue-500 hover:underline' %></li>
     </ul>
+    <h4 class="text-base font-semibold mt-8 mb-6">その他メニュー</h4>
+    <ul class="space-y-4">
+      <li><%= link_to 'プライバシーポリシー', '/privacy-policy', class: 'text-blue-500 hover:underline' %></li>
+      <li><%= link_to '利用規約', 'https://www.kiyac.app/termsOfService/OvdcxOC4vkaK7r0JooHF', target: '_blank', class: 'text-blue-500 hover:underline' %></li>
+      <li><%= link_to 'お問合せ', 'https://docs.google.com/forms/d/e/1FAIpQLSeeUJ0yZ74kHU2InFHh-z-2Ci458mtWkxCp3N1ojaFkHrusGA/viewform?usp=header', target: '_blank', class: 'text-blue-500 hover:underline' %></li>
+    </ul>
   </div>
 
   <!-- 右側の動画投稿一覧 -->
   <div class="w-3/4 p-4">
-    <h3 class="text-2xl font-semibold mb-6">スレッド一覧にようこそ！</h3>
+    <h3 class="text-2xl font-semibold mb-6">スレッド一覧！！</h3>
 
     <% if params[:query].present? %>
       <h4 class="text-xl font-semibold mb-4">検索結果: "<%= params[:query] %>"</h4>

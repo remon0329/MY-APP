@@ -3,26 +3,26 @@
 <%= form_with model: @post, local: true do |form| %>
   <div class="form-group pl-2 py-4">
     <%= form.label :title, 'タイトル' %>
-    <%= form.text_field :title, class: 'form-control border border-black p-2 w-1/2' , required: true %>
+    <%= form.text_field :title, class: 'form-control border border-black p-2 w-3/4 sm:w-3/5', required: true %>
   </div>
 
   <div class="form-group pl-2 py-4">
     <%= form.label :description, '説明欄' %>
-    <%= form.text_area :description, class: 'form-control border border-black p-2 w-1/2', required: true %>
+    <%= form.text_area :description, class: 'form-control border border-black p-2 w-3/4 sm:w-3/5', required: true %>
   </div>
 
   <p class="font-bold mx-2.5">YouTubeの動画URLと動画ファイルを同時に選択出来ません!</p>
-  <p class="font-bold mx-2.5">どちらとも入力している場合は投稿出来ません！！</p>
+  <p class="font-bold mx-2.5">両方入力している場合は投稿出来ません！！</p>
 
   <div class="pl-2 py-4">
     <%= form.label :video_url, "YouTubeの動画URL" %>
-    <%= form.text_field :video_url, class: 'form-control border border-black p-2 w-1/3' %>
+    <%= form.text_field :video_url, class: 'form-control border border-black p-2 w-3/4 sm:w-1/3' %>
     <small>例: https://www.youtube.com/watch?v=XXXXXX</small>
   </div>
 
   <div class="pl-2 py-4">
     <%= form.label :video_file, "動画ファイルをアップロード" %>
-    <%= form.file_field :video_file %>
+    <%= form.file_field :video_file, class: 'w-3/4 sm:w-auto' %>
   </div>
 
   <div class="pl-2 py-4">
@@ -34,11 +34,11 @@
 
   <div class="pl-2 py-4">
     <%= form.label :tag_list, "タグ" %>
-    <%= form.text_field :tag_list, value: @post.tags.map(&:name).join(", "), class: 'form-control border border-black p-2 w-1/3' %>
+    <%= form.text_field :tag_list, value: @post.tags.map(&:name).join(", "), class: 'form-control border border-black p-2 w-3/4 sm:w-1/3' %>
     <small>タグはカンマで区切って入力してください。（例)Switch,3DS,PlayStation4,PlayStation5</small>
   </div>
 
   <div class="pl-2 py-4">
-    <%= form.submit "投稿する", class: 'btn btn-primary' %>
+    <%= form.submit "投稿する", class: 'btn btn-primary mx-2.5' %>
   </div>
 <% end %>
