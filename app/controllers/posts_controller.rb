@@ -2,6 +2,7 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, only: [ :create, :edit, :update, :destroy, :new, :show ]
   before_action :set_post, only: [ :edit, :update, :destroy ]
   helper_method :prepare_meta_tags
+  before_action :require_admin, only: [ :edit, :update, :destroy ]
 
   def index
     @q = Post.ransack(params[:q])

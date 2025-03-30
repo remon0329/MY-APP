@@ -68,6 +68,15 @@
             <% end.reject(&:blank?).join(', ') %>
           </p>
 
+          <% if user_signed_in? && current_user.admin? %>
+            <div class="button-group flex">
+              <%= link_to '編集', edit_post_path(post), class: 'btn btn-primary mr-6' %>
+              <%= form_with(model: post, method: :delete, local: true, class: 'd-inline') do |form| %>
+                <%= form.submit '削除', class: 'btn btn-danger' %>
+              <% end %>
+            </div>
+          <% end %>
+
           <div class="flex items-center gap-4 mt-4">
             <%= render "likes/btn", post: post %>
 
