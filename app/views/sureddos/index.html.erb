@@ -53,6 +53,16 @@
               <%= link_to tag.name, sureddos_path(tag_list: tag.name), class: 'text-blue-500 hover:underline' %>
             <% end.reject(&:blank?).join(', ') %>
           </p>
+
+          <% if user_signed_in? && current_user.admin? %>
+            <div class="button-group flex">
+              <%= link_to '編集', edit_sureddo_path(sureddo), class: 'btn btn-primary mr-6' %>
+              <%= form_with(model: sureddo, method: :delete, local: true) do |form| %>
+                <%= form.submit '削除', class: 'btn btn-danger' %>
+              <% end %>
+            </div>
+          <% end %>
+
           <div class="flex items-center gap-4 mt-4">
             <%= render "likes/sureddo_btn", sureddo: sureddo %>
 

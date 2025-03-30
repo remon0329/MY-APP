@@ -12,6 +12,10 @@ class User < ApplicationRecord
     end
   end
 
+  def admin?
+    role == "admin"
+  end
+
   has_many :posts, dependent: :destroy
   has_many :posts
   has_many :sureddos, dependent: :destroy
