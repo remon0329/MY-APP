@@ -6,11 +6,9 @@ class PostsController < ApplicationController
 
   def index
     @q = Post.ransack(params[:q])
-    # タグでの絞り込み
     if params[:tag_list].present?
       @posts = Post.joins(:tags).where(tags: { name: params[:tag_list] }).distinct
     else
-      # 通常の検索
       if params[:q].present?
         @posts = @q.result(distinct: true)
       else
@@ -26,11 +24,9 @@ class PostsController < ApplicationController
 
   def top
     @q = Post.ransack(params[:q])
-    # タグでの絞り込み
     if params[:tag_list].present?
       @posts = Post.joins(:tags).where(tags: { name: params[:tag_list] }).distinct
     else
-      # 通常の検索
       if params[:q].present?
         @posts = @q.result(distinct: true)
       else
