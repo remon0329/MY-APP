@@ -5,31 +5,28 @@ class SureddosController < ApplicationController
   before_action :require_admin, only: [ :edit, :update, :destroy ]
 
   def index
-    @q = Sureddo.ransack(params[:q]) # ransackによる検索
-    # ジャンルタグによる絞り込み
+    @q = Sureddo.ransack(params[:q])
     if params[:tag_list].present?
       @sureddos = Sureddo.joins(:tags).where(tags: { name: params[:tag_list].split(",") }).distinct
     elsif params[:tag_id].present?
-      tag = Tag.find(params[:tag_id]) # タグIDでタグを取得
-      @sureddos = tag.sureddos.distinct # タグに関連するSureddoを取得
+      tag = Tag.find(params[:tag_id])
+      @sureddos = tag.sureddos.distinct
     else
-      # タグによる絞り込みがなければ通常の検索
       if params[:q].present?
         @sureddos = @q.result(distinct: true)
       else
-        @sureddos = Sureddo.all # すべてのSureddoを取得
+        @sureddos = Sureddo.all
       end
     end
   end
 
   def search
-    @q = Sureddo.ransack(title_cont: params[:q]) # タイトルを検索
-    # タグで絞り込む処理
+    @q = Sureddo.ransack(title_cont: params[:q])
     if params[:tag_id].present?
       tag = Tag.find(params[:tag_id])
-      @sureddos = tag.sureddos.distinct # タグに関連するSureddoを取得
+      @sureddos = tag.sureddos.distinct
     else
-      @sureddos = @q.result(distinct: true) # ransack検索結果
+      @sureddos = @q.result(distinct: true)
     end
     respond_to do |format|
       format.js
@@ -43,8 +40,8 @@ class SureddosController < ApplicationController
   end
 
   def show
-    @sureddo = Sureddo.find(params[:id])  # 特定のsureddoを取得
-    @comments = @sureddo.comments  # このsureddoに関連するコメントを取得
+    @sureddo = Sureddo.find(params[:id])
+    @comments = @sureddo.comments
     prepare_meta_tags(@sureddo)
   end
 
@@ -52,7 +49,6 @@ class SureddosController < ApplicationController
     @sureddo = current_user.sureddos.build(sureddo_params)
     @sureddo.user_id = current_user.id
     @sureddo.user_name = current_user.name
-    # ジャンル（predefined_tags）が選択されていた場合、それをタグリストに追加
     if params[:sureddo][:predefined_tags].present?
       predefined_tag = params[:sureddo][:predefined_tags]
       @sureddo.tag_list = [ predefined_tag, params[:sureddo][:tag_list] ].join(",")
@@ -67,7 +63,6 @@ class SureddosController < ApplicationController
   end
 
   def edit
-    # @sureddoはbefore_actionでセットされる
   end
 
   def update
@@ -96,7 +91,7 @@ class SureddosController < ApplicationController
   private
 
   def set_sureddo
-    @sureddo = Sureddo.find(params[:id])  # 特定のsureddoを取得
+    @sureddo = Sureddo.find(params[:id])
   end
 
   def sureddo_params

@@ -37,7 +37,6 @@ class PostsController < ApplicationController
 
   def search
     @q = Post.ransack(title_cont: params[:q])
-    # タグでの絞り込み
     if params[:tag_id].present?
       tag = Tag.find(params[:tag_id])
       @posts = tag.posts.distinct
@@ -73,9 +72,7 @@ class PostsController < ApplicationController
   end
 
   def like_show
-    # ユーザーが「いいね」をしたPostを取得
     @posts = current_user.likes.where.not(post_id: nil).map(&:post)
-    # ユーザーが「いいね」をしたSureddoを取得
     @sureddos = current_user.likes.where.not(sureddo_id: nil).map(&:sureddo)
   end
 
@@ -84,10 +81,8 @@ class PostsController < ApplicationController
     @post.user_id = current_user.id
     @post.user_name = current_user.name
 
-    # predefined_tagsが送信されていれば、それをtag_listとして設定
     if params[:post][:predefined_tags].present?
       predefined_tags = params[:post][:predefined_tags]
-      # 既存のタグリストにpredefined_tagsを追加
       @post.tag_list = (predefined_tags.split(",") + params[:post][:tag_list].split(",")).uniq
     else
       @post.tag_list = params[:post][:tag_list].split(",")
@@ -101,32 +96,27 @@ class PostsController < ApplicationController
   end
 
   def edit
-    # @post は before_action で設定される
   end
 
   def update
-    # 基本的なパラメータを取得
     post_attributes = post_params
-    # predefined_tagsが送信されていれば、それをtag_listとして設定
     if params[:post][:predefined_tags].present?
       predefined_tags = params[:post][:predefined_tags]
-      @post.predefined_tags = predefined_tags # 現在選択されたジャンルを更新
-      # 既存のタグリストにpredefined_tagsを追加
+      @post.predefined_tags = predefined_tags
       @post.tag_list = (predefined_tags.split(",") + params[:post][:tag_list].split(",")).uniq
     else
       @post.tag_list = params[:post][:tag_list].split(",")
     end
-    # YouTubeの動画URLと動画ファイルが両方送信されていないかチェック
     if params[:post][:video_url].present? && params[:post][:video_file].present?
       @post.errors.add(:base, "YouTubeの動画URLと動画ファイルは同時に更新できません")
       render :edit and return
     end
     if params[:post][:video_url].present?
       @post.video_url = params[:post][:video_url]
-      @post.video_file.purge if @post.video_file.attached? # Remove any attached video file
+      @post.video_file.purge if @post.video_file.attached?
     elsif params[:post][:video_file].present?
       @post.video_file.attach(params[:post][:video_file])
-      @post.video_url = nil # Clear any existing video URL
+      @post.video_url = nil
     end
     if @post.update(post_attributes)
       redirect_to post_path(current_user), notice: "投稿が更新されました"

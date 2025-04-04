@@ -13,11 +13,9 @@ class Post < ApplicationRecord
 
 
   def tag_list=(tags)
-    # tagsが配列なら、そのまま使う
     if tags.is_a?(Array)
       self.tags = tags.map { |tag| Tag.find_or_create_by(name: tag.strip) }
     else
-      # 文字列の場合はカンマで分割して処理
       self.tags = tags.split(",").map { |tag| Tag.find_or_create_by(name: tag.strip) }
     end
   end
@@ -28,7 +26,6 @@ class Post < ApplicationRecord
   end
 
   def create_notification_like!(current_user)
-    # すでに「いいね」されているか検索
     temp = Notification.where(
       visitor_id: current_user.id,
       visited_id: user_id,
@@ -36,7 +33,6 @@ class Post < ApplicationRecord
       action: "like"
     )
 
-    # いいねされていない場合のみ通知レコードを作成
     return if temp.exists?
 
     notification = current_user.active_notifications.new(
@@ -44,7 +40,6 @@ class Post < ApplicationRecord
       visited_id: user_id,
       action: "like"
     )
-    # 自分の投稿に対する「いいね」の場合は通知済みにする
     notification.checked = true if notification.visitor_id == notification.visited_id
     notification.save if notification.valid?
   end
@@ -52,12 +47,10 @@ class Post < ApplicationRecord
   def create_notification_comment!(current_user, comment_id)
     temp_ids = Comment.select(:user_id).where(post_id: id).where.not(user_id: current_user.id).distinct
 
-    # 他のユーザーに通知
     temp_ids.each do |temp_id|
       save_notification_comment!(current_user, comment_id, temp_id["user_id"])
     end
 
-    # コメントがまだない場合、投稿者に通知を送る
     save_notification_comment!(current_user, comment_id, user_id) if temp_ids.blank?
   end
 
@@ -69,7 +62,6 @@ class Post < ApplicationRecord
       action: "comment"
     )
 
-    # 自分の投稿に対するコメントの場合は通知済みにする
     notification.checked = true if notification.visitor_id == notification.visited_id
     notification.save if notification.valid?
   end
