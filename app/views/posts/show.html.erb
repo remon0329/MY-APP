@@ -5,7 +5,7 @@
   </button>
 </h1>
 
-<div id="modal" class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 hidden">
+<div id="modal" class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 hidden z-50">
   <div class="bg-white p-6 rounded-lg max-w-sm w-full">
     <h2 class="font-bold text-xl mb-4">名前の変更</h2>
     <%= form_for current_user, url: user_path(current_user), html: { method: :patch } do |f| %>
