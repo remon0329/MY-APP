@@ -1,7 +1,29 @@
-<h1 class="font-bold mx-2.5"><%= current_user.name %>の記録</h1>
+<h1 class="font-bold mx-2.5">
+  <%= current_user.name %>の記録
+  <button id="openModalButton" class="text-blue-500 ml-2">
+    <i class="fas fa-edit"></i>
+  </button>
+</h1>
 
-<div class="button-group">
-  <!-- デスクトップ表示用: 投稿ボタン (横一列に並べる) -->
+<div id="modal" class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 hidden">
+  <div class="bg-white p-6 rounded-lg max-w-sm w-full">
+    <h2 class="font-bold text-xl mb-4">名前の変更</h2>
+    <%= form_for current_user, url: user_path(current_user), html: { method: :patch } do |f| %>
+      <div class="field mb-4">
+        <%= f.label :name, "新しい名前" %><br>
+        <%= f.text_field :name, value: current_user.name, class: "border p-2 rounded-md w-full" %>
+      </div>
+
+      <div class="actions mt-4">
+        <%= f.submit "変更", class: "bg-blue-500 text-white p-2 rounded-md w-full hover:bg-blue-600" %>
+      </div>
+    <% end %>
+
+    <button id="closeModalButton" class="text-red-500 mt-4 w-full text-center">キャンセル</button>
+  </div>
+</div>
+
+<div class="buttoUsersControlle-group">
   <div class="hidden sm:flex space-x-4">
     <%= link_to '動画投稿', new_post_path, class: 'btn btn-primary my-5 mx-2.5' %>
     <%= link_to 'スレッド投稿', new_sureddo_path, class: 'btn btn-primary my-5 mx-2.5' %>

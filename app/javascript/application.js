@@ -21,3 +21,23 @@ document.addEventListener('turbo:load', function () {
     });
   }
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+    const openModalButton = document.getElementById("openModalButton");
+    const closeModalButton = document.getElementById("closeModalButton");
+    const modal = document.getElementById("modal");
+
+    openModalButton.addEventListener("click", function() {
+      modal.classList.remove("hidden");
+    });
+
+    closeModalButton.addEventListener("click", function() {
+      modal.classList.add("hidden");
+    });
+
+    window.addEventListener("click", function(event) {
+      if (event.target === modal) {
+        modal.classList.add("hidden");
+      }
+    });
+  });

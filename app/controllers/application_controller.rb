@@ -4,9 +4,8 @@ class ApplicationController < ActionController::Base
 
   private
 
-  # 管理者のみアクセス可能なアクションに制限
   def require_admin
-    unless current_user&.admin? # current_userが存在し、admin?がtrueの場合のみアクセス許可
+    unless current_user&.admin?
       flash[:alert] = "管理者のみアクセス可能です"
       redirect_to root_path
     end

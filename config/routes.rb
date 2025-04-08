@@ -34,5 +34,6 @@ Rails.application.routes.draw do
     resource :like, only: [ :create, :destroy ]
     resources :comments, only: [ :create ], controller: "comments", action: "create_for_post"
   end
+  resources :users, only: [ :show, :update ]
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 end
