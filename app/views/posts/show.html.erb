@@ -92,7 +92,7 @@
           <img src="<%= asset_path('985bad170e1e402f666512e7ab9de011.png') %>" alt="Twitter Share" class="w-6 h-6" />
         <% end %>
       </div>
-      <% if current_user == post.user %>
+      <% if current_user == post.user || current_user.admin? %>
         <div class="button-group flex">
           <%= link_to '編集', edit_post_path(post), class: 'btn btn-primary mr-6' %>
           <%= form_with(model: post, method: :delete, local: true, class: 'd-inline') do |form| %>

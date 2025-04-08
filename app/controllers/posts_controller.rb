@@ -2,7 +2,7 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, only: [ :create, :edit, :update, :destroy, :new, :show ]
   before_action :set_post, only: [ :edit, :update, :destroy ]
   helper_method :prepare_meta_tags
-  before_action :require_admin, only: [ :edit, :update, :destroy ]
+  before_action :require_admin_or_owner, only: [ :edit, :update, :destroy ]
 
   def index
     @q = Post.ransack(params[:q])
@@ -140,6 +140,13 @@ class PostsController < ApplicationController
 
   def set_post
     @post = Post.find(params[:id])
+  end
+
+  def require_admin_or_owner
+    unless current_user&.admin? || current_user == @post.user
+      flash[:alert] = "この投稿を編集・削除する権限がありません"
+      redirect_to root_path
+    end
   end
 
   def search_posts(query)

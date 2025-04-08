@@ -2,7 +2,7 @@ class SureddosController < ApplicationController
   before_action :authenticate_user!, only: [ :create, :edit, :update, :destroy, :new ]
   before_action :set_sureddo, only: [ :show, :edit, :update, :destroy ]
   helper_method :prepare_meta_tags
-  before_action :require_admin, only: [ :edit, :update, :destroy ]
+  before_action :require_admin_or_owner, only: [ :edit, :update, :destroy ]
 
   def index
     @q = Sureddo.ransack(params[:q])
@@ -92,6 +92,13 @@ class SureddosController < ApplicationController
 
   def set_sureddo
     @sureddo = Sureddo.find(params[:id])
+  end
+
+  def require_admin_or_owner
+    unless current_user&.admin? || current_user == @sureddo.user
+      flash[:alert] = "この投稿を編集・削除する権限がありません"
+      redirect_to sureddos_path
+    end
   end
 
   def sureddo_params
