@@ -1,17 +1,17 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["dots"]
+  static targets = ["infinity"]
 
   connect() {
     this.hide()
   }
 
   show() {
-    this.dotsTarget.classList.remove("hidden")
+    this.infinityTarget.classList.remove("hidden")
   }
 
   hide() {
-    this.dotsTarget.classList.add("hidden")
+    this.infinityTarget.classList.add("hidden")
   }
 }
