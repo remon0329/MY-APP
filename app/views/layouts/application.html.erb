@@ -20,6 +20,22 @@
   </head>
 
   <body>
+    <div 
+      data-controller="modal"
+      data-modal-target="modal"
+      class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden">
+      <div class="bg-white p-6 rounded shadow-md max-w-lg w-full">
+        <h2 class="text-xl font-semibold mb-4">アプリの使い方</h2>
+        <p class="mb-4">
+          このアプリでは、〇〇ができます。メニューから△△を選んでください。
+        </p>
+        <button 
+          data-action="click->modal#close"
+          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+          閉じる
+        </button>
+      </div>
+    </div>
     <div data-controller="loading">
       <div data-loading-target="infinity" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
         <div class="h-[150px] w-[150px] flex items-center justify-center">
