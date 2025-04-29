@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Myapp" %></title>
+    <title><%= content_for(:title) || "GAMES_MEMORY" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
@@ -27,7 +27,13 @@
       <div class="bg-white p-6 rounded shadow-md max-w-lg w-full">
         <h2 class="text-xl font-semibold mb-4">アプリの使い方</h2>
         <p class="mb-4">
-          このアプリでは、〇〇ができます。メニューから△△を選んでください。
+          GAMES_MEMORYにようこそ！
+          このサイトでは思い出深いゲームやハマったゲーム動画を埋め込んだり、スレッドを投稿してもらい
+          色々な世代の人気なゲームからマイナーなゲームまで気軽に共有できるサービスです。
+          まずはGoogleでログインしてみよう
+          ログインをすると以下のことが出来るようになります
+          （投稿、コメント、いいね）
+          ぜひ皆様のおすすめのゲームをどんどんと共有してください！
         </p>
         <button 
           data-action="click->modal#close"
